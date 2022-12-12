@@ -32,6 +32,6 @@ public abstract class VanillaTextLocator implements Locator {
 
     @Override
     public CreditsElementReader openReader(EndTextAcceptor acceptor) {
-        return new TextReader(acceptor);
+        return new PoemLikeTextReader(acceptor);
     }
 }

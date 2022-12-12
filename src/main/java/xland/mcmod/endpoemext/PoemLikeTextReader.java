@@ -9,11 +9,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
 
-public class TextReader extends CreditsElementReader {
+public class PoemLikeTextReader extends CreditsElementReader {
     private static final String OBFUSCATION_PLACEHOLDER = "" + Formatting.WHITE + Formatting.OBFUSCATED + Formatting.GREEN + Formatting.AQUA;
     private final String username = MinecraftClient.getInstance().getSession().getUsername();
 
-    protected TextReader(EndTextAcceptor acceptor) {
+    protected PoemLikeTextReader(EndTextAcceptor acceptor) {
         super(acceptor);
     }
 
