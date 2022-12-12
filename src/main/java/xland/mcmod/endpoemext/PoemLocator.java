@@ -11,6 +11,6 @@ public class PoemLocator extends VanillaTextLocator {
 
     @Override
     protected Identifier getAlternativePath(String langCode) {
-        return new Identifier("texts/end_poem/" + langCode + ".txt");
+        return new Identifier("end_poem_extension", "texts/end_poem/" + langCode + ".txt");
     }
 }
