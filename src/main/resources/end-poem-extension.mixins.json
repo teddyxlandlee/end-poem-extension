@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "xland.mcmod.endpoemext.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "client": [
+    "CreditsScreenMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
