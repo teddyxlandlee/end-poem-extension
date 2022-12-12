@@ -10,6 +10,10 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import org.slf4j.Logger;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashSet;
@@ -42,14 +46,18 @@ public record SplashModification(
         var resourceManager = MinecraftClient.getInstance().getResourceManager();
         SplashModification modification = new SplashModification();
 
-        for (Resource resource : resourceManager.getAllResources(SPLASH_MODIFICATION)) {
-            try (var reader = resource.getReader()) {
-                final JsonObject obj = JsonHelper.deserialize(reader);
-                readArray(obj, "add", modification::add);
-                readArray(obj, "remove", modification::remove);
-            } catch (Exception e) {
-                LOGGER.error("Failed to read splash config from {}", SPLASH_MODIFICATION, e);
+        try {
+            for (Resource resource : resourceManager.getAllResources(SPLASH_MODIFICATION)) {
+                try (var reader = new BufferedReader(new InputStreamReader(resource.getInputStream(), StandardCharsets.UTF_8))) {
+                    final JsonObject obj = JsonHelper.deserialize(reader);
+                    readArray(obj, "add", modification::add);
+                    readArray(obj, "remove", modification::remove);
+                } catch (Exception e) {
+                    LOGGER.error("Failed to read splash config from {}", SPLASH_MODIFICATION, e);
+                }
             }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
 
         list.addAll(modification.add());

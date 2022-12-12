@@ -2,6 +2,7 @@ package xland.mcmod.endpoemext;
 
 import it.unimi.dsi.fastutil.ints.IntCollection;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.text.LiteralText;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
 
@@ -27,7 +28,7 @@ public class EndTextAcceptor {
     }
 
     public void addText(String text) {
-        this.textVisitor.addAll(MinecraftClient.getInstance().textRenderer.wrapLines(Text.literal(text), MAX_WIDTH));
+        this.textVisitor.addAll(MinecraftClient.getInstance().textRenderer.wrapLines(new LiteralText(text), MAX_WIDTH));
     }
 
     public void addText(Text text, boolean centered) {

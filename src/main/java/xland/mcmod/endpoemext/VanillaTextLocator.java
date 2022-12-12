@@ -5,6 +5,7 @@ import net.minecraft.resource.Resource;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
@@ -22,10 +23,17 @@ public abstract class VanillaTextLocator implements Locator {
     @Override
     public List<Resource> locate(ResourceManager manager) {
         final String langCode = getLangCode();
-        return manager.getResource(getAlternativePath(langCode))
-                .or(() -> manager.getResource(vanillaPath))
-                .map(Collections::singletonList)
-                .orElseThrow(() -> new IllegalStateException("Mojang should have bundled " + vanillaPath));
+        Resource r0;
+        try {
+            r0 = manager.getResource(getAlternativePath(langCode));
+        } catch (IOException e) {
+            try {
+                r0 = manager.getResource(vanillaPath);
+            } catch (IOException ex) {
+                throw new IllegalStateException("Mojang should have bundled " + vanillaPath);
+            }
+        }
+        return Collections.singletonList(r0);
     }
 
     protected abstract Identifier getAlternativePath(String langCode);

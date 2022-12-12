@@ -4,7 +4,7 @@ import net.minecraft.resource.Resource;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
@@ -14,8 +14,8 @@ public class MojangCreditsLocator implements Locator {
     @Override
     public List<Resource> locate(ResourceManager manager) {
         try {
-            return Collections.singletonList(manager.getResourceOrThrow(MOJANG_CREDITS));
-        } catch (FileNotFoundException e) {
+            return Collections.singletonList(manager.getResource(MOJANG_CREDITS));
+        } catch (IOException e) {
             throw new IllegalStateException("Failed to load Mojang credits", e);
         }
     }

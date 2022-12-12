@@ -3,6 +3,7 @@ package xland.mcmod.endpoemext;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.JsonHelper;
@@ -10,7 +11,7 @@ import net.minecraft.util.JsonHelper;
 import java.io.Reader;
 
 public class CreditsReader extends CreditsElementReader {
-    private static final Text SEPARATOR_LINE = Text.literal("============").formatted(Formatting.WHITE);
+    private static final Text SEPARATOR_LINE = new LiteralText("============").formatted(Formatting.WHITE);
     private static final String CENTERED_LINE_PREFIX = "           ";   // 11 spaces
     protected CreditsReader(EndTextAcceptor acceptor) {
         super(acceptor);
@@ -23,7 +24,7 @@ public class CreditsReader extends CreditsElementReader {
             JsonObject eachSection = JsonHelper.asObject(e, "section");
             String string = eachSection.get("section").getAsString();
             acceptor.addText(SEPARATOR_LINE, true);
-            acceptor.addText(Text.literal(string).formatted(Formatting.YELLOW), true);
+            acceptor.addText(new LiteralText(string).formatted(Formatting.YELLOW), true);
             acceptor.addText(SEPARATOR_LINE, true);
             acceptor.addEmptyLine();
             acceptor.addEmptyLine();
@@ -32,11 +33,11 @@ public class CreditsReader extends CreditsElementReader {
                 JsonObject oneTitle = JsonHelper.asObject(e1, "title");
                 String string2 = oneTitle.get("title").getAsString();
                 JsonArray names = JsonHelper.getArray(oneTitle, "names");
-                acceptor.addText(Text.literal(string2).formatted(Formatting.GRAY), false);
+                acceptor.addText(new LiteralText(string2).formatted(Formatting.GRAY), false);
                 for (JsonElement e2 : names) {
                     String name = JsonHelper.asString(e2, "name");
                     acceptor.addText(
-                            Text.literal(CENTERED_LINE_PREFIX).append(name).formatted(Formatting.WHITE),
+                            new LiteralText(CENTERED_LINE_PREFIX).append(name).formatted(Formatting.WHITE),
                             false);
                 }
                 acceptor.addEmptyLine();

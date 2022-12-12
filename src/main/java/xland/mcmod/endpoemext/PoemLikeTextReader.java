@@ -2,12 +2,12 @@ package xland.mcmod.endpoemext;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.Formatting;
-import net.minecraft.util.math.random.Random;
 import org.apache.commons.io.IOUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.util.Random;
 
 public class PoemLikeTextReader extends CreditsElementReader {
     private static final String OBFUSCATION_PLACEHOLDER = "" + Formatting.WHITE + Formatting.OBFUSCATED + Formatting.GREEN + Formatting.AQUA;
@@ -20,7 +20,7 @@ public class PoemLikeTextReader extends CreditsElementReader {
     @Override
     protected void read(Reader reader) throws IOException {
         BufferedReader bufferedReader = IOUtils.buffer(reader);
-        Random random = Random.create(8124371L);
+        Random random = new Random(8124371L);
         int i;
         String s;
         while ((s = bufferedReader.readLine()) != null) {
