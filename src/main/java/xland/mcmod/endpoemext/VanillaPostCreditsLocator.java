@@ -11,6 +11,6 @@ public class VanillaPostCreditsLocator extends VanillaTextLocator {
 
     @Override
     protected Identifier getAlternativePath(String langCode) {
-        return new Identifier("end_poem_extension", "texts/postcredits/" + langCode + ".json");
+        return new Identifier("end_poem_extension", "texts/postcredits/" + langCode + ".txt");
     }
 }
