@@ -16,7 +16,7 @@ public abstract class VanillaTextLocator implements Locator {
     }
 
     public static String getLangCode() {
-        return MinecraftClient.getInstance().getLanguageManager().getLanguage().getCode();
+        return MinecraftClient.getInstance().getLanguageManager().getLanguage();
     }
 
     @Override
