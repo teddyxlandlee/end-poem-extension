@@ -10,10 +10,10 @@ Mojang.
 ### Customizable files
 
 Here's a list of files that you can customize:  
-+ **Localized End Poem**: `assets/end_poem_extension/texts/end_poem/xx_xx.json` where
++ **Localized End Poem**: `assets/end_poem_extension/texts/end_poem/xx_xx.txt` where
 `xx_xx` is replaced with language code.
   + Format: same as vanilla _End Poem_ in `assets/minecraft/texts/end.txt`.
-+ **Localized PostCredits**: `assets/end_poem_extension/texts/postcredits/xx_xx.json` where
++ **Localized PostCredits**: `assets/end_poem_extension/texts/postcredits/xx_xx.txt` where
 `xx_xx` is replaced with language code.
   + Format: same as above.
 + **Mod / Resource Pack Credits**: `assets/*/texts/mod_credits.json` where `*`
