@@ -27,21 +27,41 @@ public class CreditsReader extends CreditsElementReader {
             acceptor.addText(SEPARATOR_LINE, true);
             acceptor.addEmptyLine();
             acceptor.addEmptyLine();
-            JsonArray titles = eachSection.getAsJsonArray("titles");
-            for (JsonElement e1 : titles) {
-                JsonObject oneTitle = JsonHelper.asObject(e1, "title");
-                String string2 = oneTitle.get("title").getAsString();
-                JsonArray names = JsonHelper.getArray(oneTitle, "names");
-                acceptor.addText(Text.literal(string2).formatted(Formatting.GRAY), false);
-                for (JsonElement e2 : names) {
-                    String name = JsonHelper.asString(e2, "name");
-                    acceptor.addText(
-                            Text.literal(CENTERED_LINE_PREFIX).append(name).formatted(Formatting.WHITE),
-                            false);
+            JsonArray disciplines = eachSection.getAsJsonArray("disciplines");
+            if (disciplines != null) {
+                for (JsonElement e0 : disciplines) {
+                    JsonObject eachDiscipline = e0.getAsJsonObject();
+                    String discipline = JsonHelper.getString(eachDiscipline, "discipline", "");
+                    if (!discipline.isBlank()) {
+                        // this.addCreditsLine(Component.literal(string2).withStyle(ChatFormatting.YELLOW), true);
+                        acceptor.addText(Text.literal(discipline).formatted(Formatting.YELLOW), true);
+                        acceptor.addEmptyLine();
+                        acceptor.addEmptyLine();
+                    }
+                    JsonArray titles = eachDiscipline.getAsJsonArray("titles");
+                    readTitles(titles);
                 }
-                acceptor.addEmptyLine();
-                acceptor.addEmptyLine();
+            } else {
+                JsonArray titles = eachSection.getAsJsonArray("titles");
+                readTitles(titles);
             }
+        }
+    }
+
+    private void readTitles(JsonArray titles) {
+        for (JsonElement e1 : titles) {
+            JsonObject oneTitle = JsonHelper.asObject(e1, "title");
+            String string2 = oneTitle.get("title").getAsString();
+            JsonArray names = JsonHelper.getArray(oneTitle, "names");
+            acceptor.addText(Text.literal(string2).formatted(Formatting.GRAY), false);
+            for (JsonElement e2 : names) {
+                String name = JsonHelper.asString(e2, "name");
+                acceptor.addText(
+                        Text.literal(CENTERED_LINE_PREFIX).append(name).formatted(Formatting.WHITE),
+                        false);
+            }
+            acceptor.addEmptyLine();
+            acceptor.addEmptyLine();
         }
     }
 }
