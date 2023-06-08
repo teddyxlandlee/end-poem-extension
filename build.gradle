@@ -86,7 +86,7 @@ jar {
     }
 }
 
-[jar, sourcesJar].each {
+[jar, sourcesJar, remapJar, remapSourcesJar].each {
     it.configure {
         archiveAppendix.set 'forge'
     }
