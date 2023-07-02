@@ -1,10 +1,16 @@
 plugins {
-    id 'fabric-loom' version '1.0-SNAPSHOT'
+    id 'dev.architectury.loom' version '1.1-SNAPSHOT'
     id 'maven-publish'
 }
 
 version = project.mod_version
 group = project.maven_group
+
+loom {
+    forge {
+        mixinConfigs 'end-poem-extension.mixins.json'
+    }
+}
 
 repositories {
     // Add repositories to retrieve artifacts from in here.
@@ -12,13 +18,19 @@ repositories {
     // Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
     // See https://docs.gradle.org/current/userguide/declaring_repositories.html
     // for more information about repositories.
+    maven {
+        url 'https://maven.architectury.dev'
+    }
+    maven {
+        url 'https://maven.minecraftforge.net'
+    }
 }
 
 dependencies {
     // To change the versions see the gradle.properties file
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    forge "net.minecraftforge:forge:${project.forge_version}"
 
     compileOnly 'com.google.code.findbugs:jsr305:3.0.2'
 }
@@ -27,7 +39,7 @@ processResources {
     inputs.property "version", project.version
     filteringCharset "UTF-8"
 
-    filesMatching("fabric.mod.json") {
+    filesMatching("META-INF/mods.toml") {
         expand "version": project.version
     }
 }
@@ -59,6 +71,23 @@ java {
 jar {
     from("LICENSE") {
         rename { "${it}_${project.archivesBaseName}" }
+    }
+    manifest {
+        attributes([
+                "Specification-Title"     : "end-poem-extension",
+                "Specification-Vendor"    : "teddyxlandlee",
+                "Specification-Version"   : "1",
+                "Implementation-Title"    : project.name,
+                "Implementation-Version"  : project.version,
+                "Implementation-Vendor"   : "teddyxlandlee",
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+        ])
+    }
+}
+
+[jar, sourcesJar, remapJar, remapSourcesJar].each {
+    it.configure {
+        archiveAppendix.set 'forge'
     }
 }
 
