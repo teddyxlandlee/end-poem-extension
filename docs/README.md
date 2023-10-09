@@ -1,11 +1,21 @@
 # End Poem Extension
 
-Briefly, this is a Fabric mod that enables loading alternative, multilingual
+Briefly, this is a mod that enables loading alternative, multilingual
 versions of End Poem.
 
 In addition, the mod enables you to customize your End Poem, inserting text
 before/after the End Poem, and append your mod / resource pack credits after
 Mojang.
+
+### Recommended Resource Pack
+
+We have introduced the Recommended Resource Pack, which contains various End
+Poem translations (randomly-picked when downloading) and splash texts.
+
+Texts can be found in [Featurehouse/epx_packs](https://github.com/Featurehouse/epx_packs).
+Feel free to contribute (i.e. End Poem translations in your language, or
+interesting splashes you wanna add) by creating an issue / a pull request in
+that repo.
 
 ### Customizable files
 
@@ -58,7 +68,7 @@ can be any namespace you like.
 + Inserting texts before/after `postcredits.txt`: `assets/end_poem_extension/pre_postcredits.json`,
 `assets/end_poem_extension/post_postcredits.json`
   + Format: See above
-+ Inserting credits before Mojang (**not recommended**): `assets/end_poem_extension/pre_mojang_credits.json`
++ Inserting credits before Mojang (*not recommended*): `assets/end_poem_extension/pre_mojang_credits.json`
   + Format: See above (default value of `default_suffix` is here `json` instead)
 
 Enjoy Mining!
