@@ -57,7 +57,7 @@ public record SplashModification(
                 }
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            LOGGER.error("Failed to load splash modifications", e);
         }
 
         list.addAll(modification.add());
