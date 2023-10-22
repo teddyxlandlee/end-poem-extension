@@ -38,9 +38,9 @@ public abstract class IndexedLocator implements Locator {
                         String path = JsonHelper.getString(o, "path");
                         String suffix = JsonHelper.getString(o, "default_suffix", defaultSuffix);
                         if (isI18n) {
-                            String p0 = path + VanillaTextLocator.getLangCode() + '.' + suffix;
+                            String p0 = transformDir(path) + VanillaTextLocator.getLangCode() + '.' + suffix;
                             resources.add(manager.getResource(new Identifier(p0))
-                                    .or(() -> manager.getResource(new Identifier(path + "en_us." + suffix)))
+                                    .or(() -> manager.getResource(new Identifier(transformDir(path) + "en_us." + suffix)))
                                     .orElseThrow(() -> new FileNotFoundException("i18n resource: " + path)));
                         } else {
                             resources.add(manager.getResourceOrThrow(new Identifier(path)));
@@ -60,4 +60,8 @@ public abstract class IndexedLocator implements Locator {
 
     @Override
     public abstract CreditsElementReader openReader(EndTextAcceptor acceptor);
+
+    private static String transformDir(String path) {
+        return path.endsWith("/") ? path : path.concat("/");
+    }
 }

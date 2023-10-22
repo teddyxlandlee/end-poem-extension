@@ -1,6 +1,6 @@
 # End Poem Extension
 
-Briefly, this is a Fabric mod that enables loading alternative, multilingual
+Briefly, this is a mod that enables loading alternative, multilingual
 versions of End Poem.
 
 In addition, the mod enables you to customize your End Poem, inserting text
