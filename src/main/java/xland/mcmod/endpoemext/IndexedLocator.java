@@ -47,6 +47,7 @@ public abstract class IndexedLocator implements Locator {
                         String path = JsonHelper.getString(o, "path");
                         String suffix = JsonHelper.getString(o, "default_suffix", defaultSuffix);
                         if (isI18n) {
+                            path = transformDir(path);
                             String p0 = path + VanillaTextLocator.getLangCode() + '.' + suffix;
                             Resource r0;
                             try {
@@ -73,4 +74,8 @@ public abstract class IndexedLocator implements Locator {
 
     @Override
     public abstract CreditsElementReader openReader(EndTextAcceptor acceptor);
+
+    private static String transformDir(String path) {
+        return path.endsWith("/") ? path : path.concat("/");
+    }
 }
