@@ -4,10 +4,10 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.logging.LogUtils;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.resource.Resource;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.JsonHelper;
+import net.minecraft.client.Minecraft;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.Resource;
+import net.minecraft.util.GsonHelper;
 import org.slf4j.Logger;
 
 import java.util.ArrayList;
@@ -35,16 +35,16 @@ public record SplashModification(
     }
 
     private static final Logger LOGGER = LogUtils.getLogger();
-    private static final Identifier SPLASH_MODIFICATION = new Identifier("texts/splash_modify.json");
+    private static final ResourceLocation SPLASH_MODIFICATION = new ResourceLocation("texts/splash_modify.json");
 
     public static List<String> modify(List<String> list) {
         list = new ArrayList<>(list);
-        var resourceManager = MinecraftClient.getInstance().getResourceManager();
+        var resourceManager = Minecraft.getInstance().getResourceManager();
         SplashModification modification = new SplashModification();
 
-        for (Resource resource : resourceManager.getAllResources(SPLASH_MODIFICATION)) {
-            try (var reader = resource.getReader()) {
-                final JsonObject obj = JsonHelper.deserialize(reader);
+        for (Resource resource : resourceManager.getResourceStack(SPLASH_MODIFICATION)) {
+            try (var reader = resource.openAsReader()) {
+                final JsonObject obj = GsonHelper.parse(reader);
                 readArray(obj, "add", modification::add);
                 readArray(obj, "remove", modification::remove);
             } catch (Exception e) {
@@ -58,10 +58,10 @@ public record SplashModification(
     }
 
     private static void readArray(JsonObject obj, String key, Consumer<String> c) {
-        final JsonArray array = JsonHelper.getArray(obj, key, null);
+        final JsonArray array = GsonHelper.getAsJsonArray(obj, key, null);
         if (array == null) return;
         for (JsonElement e : array) {
-            c.accept(JsonHelper.asString(e, key));
+            c.accept(GsonHelper.convertToString(e, key));
         }
     }
 }

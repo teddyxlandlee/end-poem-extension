@@ -1,16 +1,16 @@
 package xland.mcmod.endpoemext;
 
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 public class AlternativeCreditsLocator extends IndexedLocator {
-    private final Identifier indexPath;
+    private final ResourceLocation indexPath;
 
-    public AlternativeCreditsLocator(Identifier indexPath) {
+    public AlternativeCreditsLocator(ResourceLocation indexPath) {
         this.indexPath = indexPath;
     }
 
     @Override
-    protected Identifier getIndexPath() {
+    protected ResourceLocation getIndexPath() {
         return indexPath;
     }
 
