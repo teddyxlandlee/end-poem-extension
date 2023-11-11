@@ -1,16 +1,16 @@
 package xland.mcmod.endpoemext;
 
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 public class PoemLocator extends VanillaTextLocator {
-    private static final Identifier VANILLA_POEM = new Identifier("texts/end.txt");
+    private static final ResourceLocation VANILLA_POEM = new ResourceLocation("texts/end.txt");
 
     public PoemLocator() {
         super(VANILLA_POEM);
     }
 
     @Override
-    protected Identifier getAlternativePath(String langCode) {
-        return new Identifier("end_poem_extension", "texts/end_poem/" + langCode + ".txt");
+    protected ResourceLocation getAlternativePath(String langCode) {
+        return new ResourceLocation("end_poem_extension", "texts/end_poem/" + langCode + ".txt");
     }
 }

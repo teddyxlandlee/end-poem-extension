@@ -1,8 +1,5 @@
 package xland.mcmod.endpoemext.mixin;
 
-import net.minecraft.client.resource.SplashTextResourceSupplier;
-import net.minecraft.resource.ResourceManager;
-import net.minecraft.util.profiler.Profiler;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -10,12 +7,15 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import xland.mcmod.endpoemext.splash.SplashModification;
 
 import java.util.List;
+import net.minecraft.client.resources.SplashManager;
+import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.util.profiling.ProfilerFiller;
 
-@Mixin(SplashTextResourceSupplier.class)
+@Mixin(SplashManager.class)
 public class SplashMixin {
-    @Inject(at = @At("RETURN"), method = "prepare(Lnet/minecraft/resource/ResourceManager;Lnet/minecraft/util/profiler/Profiler;)Ljava/util/List;",
+    @Inject(at = @At("RETURN"), method = "prepare(Lnet/minecraft/server/packs/resources/ResourceManager;Lnet/minecraft/util/profiling/ProfilerFiller;)Ljava/util/List;",
             cancellable = true)
-    private void modifyList(ResourceManager resourceManager, Profiler profiler, CallbackInfoReturnable<List<String>> cir) {
+    private void modifyList(ResourceManager resourceManager, ProfilerFiller profiler, CallbackInfoReturnable<List<String>> cir) {
         cir.setReturnValue(SplashModification.modify(cir.getReturnValue()));
     }
 }

@@ -1,6 +1,6 @@
 # This is an example mods.toml file.
 # Any fields that aren't annotated with #optional are *required*!
-modLoader = "javafml"
+modLoader = "lowcodefml"
 loaderVersion = "[45,)"
 license = "Apache-2.0"
 

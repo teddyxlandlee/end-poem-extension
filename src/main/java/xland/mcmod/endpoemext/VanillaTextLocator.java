@@ -1,22 +1,21 @@
 package xland.mcmod.endpoemext;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.resource.Resource;
-import net.minecraft.resource.ResourceManager;
-import net.minecraft.util.Identifier;
-
 import java.util.Collections;
 import java.util.List;
+import net.minecraft.client.Minecraft;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.Resource;
+import net.minecraft.server.packs.resources.ResourceManager;
 
 public abstract class VanillaTextLocator implements Locator {
-    private final Identifier vanillaPath;
+    private final ResourceLocation vanillaPath;
 
-    protected VanillaTextLocator(Identifier vanillaPath) {
+    protected VanillaTextLocator(ResourceLocation vanillaPath) {
         this.vanillaPath = vanillaPath;
     }
 
     public static String getLangCode() {
-        return MinecraftClient.getInstance().getLanguageManager().getLanguage();
+        return Minecraft.getInstance().getLanguageManager().getSelected();
     }
 
     @Override
@@ -28,7 +27,7 @@ public abstract class VanillaTextLocator implements Locator {
                 .orElseThrow(() -> new IllegalStateException("Mojang should have bundled " + vanillaPath));
     }
 
-    protected abstract Identifier getAlternativePath(String langCode);
+    protected abstract ResourceLocation getAlternativePath(String langCode);
 
     @Override
     public CreditsElementReader openReader(EndTextAcceptor acceptor) {
