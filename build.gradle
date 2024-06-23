@@ -22,8 +22,8 @@ allprojects {
     apply plugin: 'architectury-plugin'
     apply plugin: 'com.github.johnrengelman.shadow'
 
-    version = project.mod_version
-    group = project.maven_group
+    version = rootProject.mod_version
+    group = rootProject.maven_group
 
     loom {
         silentMojangMappingsLicense()
