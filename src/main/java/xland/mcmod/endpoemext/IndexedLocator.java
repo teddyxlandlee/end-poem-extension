@@ -31,7 +31,7 @@ public abstract class IndexedLocator implements Locator {
                 final JsonArray arr = GsonHelper.parseArray(reader);
                 for (var e : arr) {
                     if (GsonHelper.isStringValue(e)) {
-                        resources.add(manager.getResourceOrThrow(new ResourceLocation(e.getAsString())));
+                        resources.add(manager.getResourceOrThrow(ResourceLocation.parse(e.getAsString())));
                     } else if (e.isJsonObject()) {
                         var o = e.getAsJsonObject();
                         boolean isI18n = GsonHelper.getAsBoolean(o, "is_i18n", false);
@@ -39,11 +39,11 @@ public abstract class IndexedLocator implements Locator {
                         String suffix = GsonHelper.getAsString(o, "default_suffix", defaultSuffix);
                         if (isI18n) {
                             String p0 = transformDir(path) + VanillaTextLocator.getLangCode() + '.' + suffix;
-                            resources.add(manager.getResource(new ResourceLocation(p0))
-                                    .or(() -> manager.getResource(new ResourceLocation(transformDir(path) + "en_us." + suffix)))
+                            resources.add(manager.getResource(ResourceLocation.parse(p0))
+                                    .or(() -> manager.getResource(ResourceLocation.parse(transformDir(path) + "en_us." + suffix)))
                                     .orElseThrow(() -> new FileNotFoundException("i18n resource: " + path)));
                         } else {
-                            resources.add(manager.getResourceOrThrow(new ResourceLocation(path)));
+                            resources.add(manager.getResourceOrThrow(ResourceLocation.parse(path)));
                         }
                     }
                 }

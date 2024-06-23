@@ -35,7 +35,7 @@ public record SplashModification(
     }
 
     private static final Logger LOGGER = LogUtils.getLogger();
-    private static final ResourceLocation SPLASH_MODIFICATION = new ResourceLocation("texts/splash_modify.json");
+    private static final ResourceLocation SPLASH_MODIFICATION = ResourceLocation.withDefaultNamespace("texts/splash_modify.json");
 
     public static List<String> modify(List<String> list) {
         list = new ArrayList<>(list);

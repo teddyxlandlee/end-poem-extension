@@ -9,7 +9,7 @@ public class ModCreditsLocator implements Locator {
     @Override
     public List<Resource> locate(ResourceManager manager) {
         return manager.getNamespaces().stream()
-                .flatMap(ns -> manager.getResource(new ResourceLocation(ns, "texts/mod_credits.json")).stream())
+                .flatMap(ns -> manager.getResource(ResourceLocation.fromNamespaceAndPath(ns, "texts/mod_credits.json")).stream())
                 .toList();
     }
 

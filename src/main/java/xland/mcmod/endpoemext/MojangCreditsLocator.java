@@ -8,7 +8,7 @@ import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 
 public class MojangCreditsLocator implements Locator {
-    private static final ResourceLocation MOJANG_CREDITS = new ResourceLocation("texts/credits.json");
+    private static final ResourceLocation MOJANG_CREDITS = ResourceLocation.withDefaultNamespace("texts/credits.json");
 
     @Override
     public List<Resource> locate(ResourceManager manager) {
