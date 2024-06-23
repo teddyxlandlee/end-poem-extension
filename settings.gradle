@@ -13,3 +13,7 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
+
+include 'fabric'
+include 'forge'
+include 'neo'
