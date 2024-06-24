@@ -17,14 +17,14 @@ import net.minecraft.util.FormattedCharSequence;
 @Mixin(WinScreen.class)
 abstract class CreditsScreenMixin {
     @Accessor("lines")
-    abstract List<FormattedCharSequence> lines();
+    abstract List<FormattedCharSequence> epx$lines();
 
     @Accessor("centeredLines")
-    abstract IntSet centeredLines();
+    abstract IntSet epx$centeredLines();
 
     @Inject(at = @At("HEAD"), method = "wrapCreditsIO", cancellable = true)
     private void injectLoadText(ResourceLocation id, @Coerce Object reader, CallbackInfo ci) {
-        if (Locators.tryRedirect(id.getPath(), lines(), centeredLines()))
+        if (Locators.tryRedirect(id.getPath(), epx$lines(), epx$centeredLines()))
             ci.cancel();
     }
 }
