@@ -1,7 +1,8 @@
 plugins {
     id 'architectury-plugin' version '3.4-SNAPSHOT'
     id 'dev.architectury.loom' version '1.6-SNAPSHOT'
-    id ("com.github.johnrengelman.shadow") version "7.1.2" apply false
+    id "com.github.johnrengelman.shadow" version "7.1.2" apply false
+    id "com.modrinth.minotaur" version "2.+" apply false
 
     id 'maven-publish'
 }
@@ -164,6 +165,40 @@ subprojects { p ->
                     "Implementation-Vendor"   : "teddyxlandlee",
                     "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
             ])
+        }
+    }
+}
+
+subprojects {
+    if (System.getenv("MR_TOKEN")) {
+        apply plugin: 'com.modrinth.minotaur'
+        def modLoaders = project.mr_loader.toString().split(",") as List
+        modrinth {
+            token.set System.getenv("MR_TOKEN")
+            projectId.set rootProject.mr_project_id
+            versionNumber.set "${project.version}-${modLoaders[0]}"
+            versionName.set String.format(
+                    /*format=*/rootProject.mr_version_name_format.toString(),
+                    rootProject.mr_version_game_range,
+                    project.mr_loader_display,
+                    rootProject.mr_version_mod_abbr,
+                    rootProject.mr_version_display
+            )
+            changelog.set rootProject.mr_version_changelog
+            versionType.set rootProject.mr_version_type
+            gameVersions = rootProject.mr_version_game.toString().split(",") as List
+            loaders.set modLoaders
+            detectLoaders.set false
+            autoAddDependsOn.set false
+
+            dependencies {
+            	optional.project 'remote-resource-pack'
+            }
+
+            uploadFile.set tasks.remapJar
+            additionalFiles = [tasks.remapSourcesJar]
+
+            debugMode = System.getenv("MR_DEBUG_MODE") == '1'
         }
     }
 }
