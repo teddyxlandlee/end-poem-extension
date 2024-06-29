@@ -9,7 +9,7 @@ plugins {
 
 architectury {
     minecraft = rootProject.minecraft_version
-    common('fabric', 'forge', 'neoforge')
+    common('fabric', 'neoforge')
 }
 
 // This gotta be universal
@@ -43,23 +43,23 @@ allprojects {
         maven {
             url 'https://maven.architectury.dev'
         }
-        maven {
-            url 'https://maven.minecraftforge.net'
-        }
+        //maven {
+        //    url 'https://maven.minecraftforge.net'
+        //}
     }
 
     dependencies {
         // To change the versions see the gradle.properties file
         minecraft "com.mojang:minecraft:${project.minecraft_version}"
-        mappings loom.layered {
-            if (project.name == 'forge') {
-                mappings(rootProject.file('forgefix.tiny'))
-            }
-            officialMojangMappings()
-            if (project.name == 'forge') {
-                mappings(rootProject.file('forgefix.tiny'))
-            }
-        }
+        //mappings loom.layered {
+        //    if (project.name == 'forge') {
+        //        mappings(rootProject.file('forgefix.tiny'))
+        //    }
+        mappings loom.officialMojangMappings()
+            //if (project.name == 'forge') {
+                //mappings(rootProject.file('forgefix.tiny'))
+            //}
+        //}
         //modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
         //forge "net.minecraftforge:forge:${project.forge_version}"
 
