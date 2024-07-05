@@ -9,9 +9,6 @@ license = "Apache-2.0"
 issueTrackerURL="https://github.com/teddyxlandlee/end-poem-extension/issues" #optional
 # A list of mods - how many allowed here is determined by the individual mod loader
 
-[[mixins]]
-config = "end-poem-extension.mixins.json"
-
 [[mods]]
 modId = "endpoemext"
 # The version number of the mod - unlike in the Forge MDK,
@@ -38,10 +35,10 @@ Embraces translations of End Poem all over the world
 # it's always helpful to add these to stop your mod from loading when something is missing
 # rather than erroring out later
 [[dependencies.endpoemext]]
-modId = "neoforge"
+modId = "forge"
 mandatory = true # do you **need** this mod to be able to launch?
 # A version range using interval notation.
-versionRange = "[21,)"
+versionRange = "[51,)"
 ordering = "NONE" # Use this if you want your mod to be loaded specifically BEFORE or AFTER another mod
 side = "CLIENT" # Specify where this mod is required: can be BOTH, CLIENT or SERVER
 
