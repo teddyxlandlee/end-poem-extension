@@ -12,12 +12,6 @@ architectury {
     common('fabric', 'forge', 'neoforge')
 }
 
-// This gotta be universal
-//loom {
-//    forge {
-//        mixinConfigs 'end-poem-extension.mixins.json'
-//    }
-//}
 allprojects {
     apply plugin: 'dev.architectury.loom'
     apply plugin: 'architectury-plugin'
