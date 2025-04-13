@@ -1,6 +1,6 @@
 plugins {
     id 'architectury-plugin' version '3.4-SNAPSHOT'
-    id 'dev.architectury.loom' version '1.6-SNAPSHOT'
+    id 'dev.architectury.loom' version '1.10-SNAPSHOT'
     id "com.github.johnrengelman.shadow" version "7.1.2" apply false
     id "com.modrinth.minotaur" version "2.+" apply false
 
@@ -40,6 +40,10 @@ allprojects {
         maven {
             url 'https://maven.minecraftforge.net'
         }
+        maven {
+            name '7c7Maven'
+            url 'https://mvn.7c7.icu'
+        }
     }
 
     dependencies {
@@ -48,6 +52,7 @@ allprojects {
         mappings loom.officialMojangMappings()
 
         compileOnly 'com.google.code.findbugs:jsr305:3.0.2'
+        compileOnly 'xland.mcmod:enchlevel-langpatch:2.2.6' // to insert Recommended Pack relevant info
     }
 
     processResources {

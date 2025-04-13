@@ -17,11 +17,24 @@
   "mixins": [
     "end-poem-extension.mixins.json"
   ],
+  "entrypoints": {
+    "enchlevel-langpatch.init": [
+      "xland.mcmod.endpoemext.fabric.CopyrightLangPatch::load"
+    ]
+  },
   "depends": {
     "fabricloader": ">=0.14-",
-    "minecraft": ">=1.21 <1.22"
+    "minecraft": ">=1.21 <1.22",
+    "fabric-resource-loader-v0": "*"
   },
   "conflicts": {
     "somesplashmodifications": "<2"
+  },
+  "custom": {
+    "modmenu": {
+      "links": {
+        "modmenu.viewCredits": "https://featurehouse.github.io/epx_packs/v2/translation_copyright.html"
+      }
+    }
   }
 }
