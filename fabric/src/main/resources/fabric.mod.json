@@ -19,7 +19,7 @@
   ],
   "entrypoints": {
     "enchlevel-langpatch.init": [
-      "xland.mcmod.endpoemext.fabric.CopyrightLangPatch::load"
+      "xland.mcmod.endpoemext.fabric.LangPatchCopyright::load"
     ]
   },
   "depends": {
