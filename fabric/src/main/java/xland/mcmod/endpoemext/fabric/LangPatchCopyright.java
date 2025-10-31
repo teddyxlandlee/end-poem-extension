@@ -3,6 +3,7 @@ package xland.mcmod.endpoemext.fabric;
 import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
 import com.mojang.logging.LogUtils;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
@@ -12,7 +13,6 @@ import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.GsonHelper;
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import xland.mcmod.enchlevellangpatch.api.EnchantmentLevelLangPatch;
@@ -24,7 +24,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Map;
-import java.util.Optional;
 import java.util.function.Predicate;
 
 public final class LangPatchCopyright implements SimpleSynchronousResourceReloadListener {
@@ -44,24 +43,19 @@ public final class LangPatchCopyright implements SimpleSynchronousResourceReload
                 id -> "end_poem_extension".equals(id.getNamespace()) && id.getPath().endsWith(".metadata"));
         Map<String, String> newMap = Maps.newHashMap();
         for (Map.Entry<ResourceLocation, Resource> entry : map.entrySet()) {
-            final String langKey = StringUtils.removeEnd(entry.getKey().getPath(), ".metadata");
+            final String langKey = StringUtils.removeEnd(
+                    StringUtils.removeStart(entry.getKey().getPath(), "texts/end_poem/"),
+                    ".metadata"
+            );
             try (BufferedReader reader = entry.getValue().openAsReader()) {
-                newMap.put(langKey, IOUtils.toString(reader));
-            } catch (IOException e) {
+                final JsonObject obj = GSON.fromJson(reader, JsonObject.class);
+                final @Nullable String demoUri = GsonHelper.getAsString(obj, "demo", null);
+                newMap.put(langKey, demoUri);
+            } catch (IOException | JsonParseException e) {
                 LOGGER.warn("Failed to load poem translation metadata in language `{}`", langKey, e);
             }
         }
         poemCredits = newMap;
-    }
-
-    private static @Nullable String readUri(String json) {
-        try {
-            JsonObject obj = GSON.fromJson(json, JsonObject.class);
-            return GsonHelper.getAsString(obj, "demo", null);
-        } catch (Throwable t) {
-            LOGGER.warn("Failed to parse credits json", t);
-            return null;
-        }
     }
 
     public static void load() {
@@ -71,14 +65,13 @@ public final class LangPatchCopyright implements SimpleSynchronousResourceReload
                 (translationStorage, key) -> {
                     final String originTranslation = translationStorage.get(key);
                     final Map<String, String> credits = poemCredits;
-                    Optional<String> o = Optional.ofNullable(credits.get(VanillaTextLocator.getLangCode()))
-                            .map(LangPatchCopyright::readUri);
-                    if (o.isEmpty()) {
+                    @Nullable String o = credits.get(VanillaTextLocator.getLangCode());
+                    if (o == null) {
                         return originTranslation;
                     }
 
                     // Use I18n to allow API re-invoked
-                    String s = I18n.get("epx.poem.copyright.loaded_with", o.get());
+                    String s = I18n.get("epx.poem.copyright.loaded_with", o);
                     return originTranslation + s;
                 }
         );
