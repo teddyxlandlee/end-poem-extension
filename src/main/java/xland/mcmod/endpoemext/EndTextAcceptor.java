@@ -7,6 +7,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.FormattedCharSequence;
 
+@SuppressWarnings("ClassCanBeRecord")
 public class EndTextAcceptor {
     protected static final int MAX_WIDTH = 274;
     private final List<? super FormattedCharSequence> textVisitor;

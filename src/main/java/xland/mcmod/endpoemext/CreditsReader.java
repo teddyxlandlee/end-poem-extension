@@ -10,7 +10,7 @@ import net.minecraft.util.GsonHelper;
 
 public class CreditsReader extends CreditsElementReader {
     private static final Component SEPARATOR_LINE = Component.literal("============").withStyle(ChatFormatting.WHITE);
-    private static final String CENTERED_LINE_PREFIX = "           ";   // 11 spaces
+    private static final String CENTERED_LINE_PREFIX = "\040".repeat(11);   // 11 spaces
     protected CreditsReader(EndTextAcceptor acceptor) {
         super(acceptor);
     }

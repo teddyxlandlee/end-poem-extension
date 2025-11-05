@@ -20,3 +20,10 @@ dependencies {
     common(project(path: ":", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":", configuration: "transformProductionNeoForge")) { transitive = false }
 }
+
+tasks.withType(Jar.class).configureEach {
+    manifest {
+        // For Forge
+        attributes(MixinConfigs: 'end-poem-extension.mixins.json')
+    }
+}

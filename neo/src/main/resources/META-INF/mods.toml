@@ -45,6 +45,6 @@ side = "CLIENT" # Specify where this mod is required: can be BOTH, CLIENT or SER
 [[dependencies.endpoemext]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.21,)"
+versionRange = "[1.21,1.21.11)"
 ordering = "NONE"
 side = "BOTH"

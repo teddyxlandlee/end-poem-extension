@@ -1,6 +1,6 @@
 # This is an example mods.toml file.
 # Any fields that aren't annotated with #optional are *required*!
-modLoader = "lowcodefml"
+modLoader = "javafml"   # lowcodefml is already deprecated
 loaderVersion = "[1,)"
 license = "Apache-2.0"
 
@@ -48,6 +48,6 @@ side = "CLIENT" # Specify where this mod is required: can be BOTH, CLIENT or SER
 [[dependencies.endpoemext]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.21,)"
+versionRange = "[1.21,1.21.11)"
 ordering = "NONE"
 side = "BOTH"

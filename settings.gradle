@@ -18,5 +18,5 @@ pluginManagement {
 }
 
 include 'fabric'
-include 'forge'
-include 'neo'
+//include 'forge'
+include 'neo'   // include forge support
