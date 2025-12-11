@@ -14,12 +14,12 @@ import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraft.util.GsonHelper;
 import org.apache.commons.lang3.Strings;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import xland.mcmod.enchlevellangpatch.api.EnchantmentLevelLangPatch;
 import xland.mcmod.endpoemext.VanillaTextLocator;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Collections;
@@ -33,7 +33,7 @@ public final class LangPatchCopyright implements ResourceManagerReloadListener {
     private static final Gson GSON = new Gson();
 
     @Override
-    public void onResourceManagerReload(@Nonnull ResourceManager resourceManager) {
+    public void onResourceManagerReload(@NotNull ResourceManager resourceManager) {
         Map<Identifier, Resource> map = resourceManager.listResources("texts/end_poem",
                 id -> "end_poem_extension".equals(id.getNamespace()) && id.getPath().endsWith(".metadata"));
         Map<String, String> newMap = Maps.newHashMap();

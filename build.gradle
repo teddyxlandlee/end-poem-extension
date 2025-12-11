@@ -51,7 +51,6 @@ allprojects {
         minecraft "com.mojang:minecraft:${project.minecraft_version}"
         mappings loom.officialMojangMappings()
 
-        compileOnly 'com.google.code.findbugs:jsr305:3.0.2'
         compileOnly 'xland.mcmod:enchlevel-langpatch:3.1.0' // to insert Recommended Pack relevant info
     }
 
