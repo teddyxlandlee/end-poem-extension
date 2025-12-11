@@ -1,7 +1,7 @@
 package xland.mcmod.endpoemext;
 
 import java.util.List;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 
@@ -9,7 +9,7 @@ public class ModCreditsLocator implements Locator {
     @Override
     public List<Resource> locate(ResourceManager manager) {
         return manager.getNamespaces().stream()
-                .flatMap(ns -> manager.getResource(ResourceLocation.fromNamespaceAndPath(ns, "texts/mod_credits.json")).stream())
+                .flatMap(ns -> manager.getResource(Identifier.fromNamespaceAndPath(ns, "texts/mod_credits.json")).stream())
                 .toList();
     }
 

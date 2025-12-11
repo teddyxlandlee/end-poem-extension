@@ -24,7 +24,7 @@ displayName = "End Poem Extension"
 # This is your mod's "homepage" and will be displayed on the mod's information screen in the Mods panel.
 displayURL="https://modrinth.com/mod/end-poem-extension" #optional
 # This will be displayed as your mod's logo in the Mods panel.
-logoFile="icon.png" #optional
+logoFile= "icon_epx.png" #optional
 # Some more fluff displayed in the Mods panel. Feel free to issue your special thanks here!
 # credits="Thanks to Mojang for making this great game" #optional
 # Some more fluff displayed in the Mods panel. Plug your stuff here!
@@ -48,6 +48,6 @@ side = "CLIENT" # Specify where this mod is required: can be BOTH, CLIENT or SER
 [[dependencies.endpoemext]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.21,1.21.11)"
+versionRange = "[1.21.11,)"
 ordering = "NONE"
 side = "BOTH"

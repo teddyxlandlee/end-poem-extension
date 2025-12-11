@@ -1,16 +1,16 @@
 package xland.mcmod.endpoemext;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class VanillaPostCreditsLocator extends VanillaTextLocator {
-    private static final ResourceLocation POST_CREDITS = ResourceLocation.withDefaultNamespace("texts/postcredits.txt");
+    private static final Identifier POST_CREDITS = Identifier.withDefaultNamespace("texts/postcredits.txt");
 
     protected VanillaPostCreditsLocator() {
         super(POST_CREDITS);
     }
 
     @Override
-    protected ResourceLocation getAlternativePath(String langCode) {
-        return ResourceLocation.fromNamespaceAndPath("end_poem_extension", "texts/postcredits/" + langCode + ".txt");
+    protected Identifier getAlternativePath(String langCode) {
+        return Identifier.fromNamespaceAndPath("end_poem_extension", "texts/postcredits/" + langCode + ".txt");
     }
 }

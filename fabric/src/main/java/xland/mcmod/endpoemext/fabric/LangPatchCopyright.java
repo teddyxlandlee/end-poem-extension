@@ -5,15 +5,15 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.mojang.logging.LogUtils;
-import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
-import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
+import net.fabricmc.fabric.api.resource.v1.ResourceLoader;
 import net.minecraft.client.resources.language.I18n;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraft.util.GsonHelper;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.slf4j.Logger;
 import xland.mcmod.enchlevellangpatch.api.EnchantmentLevelLangPatch;
 import xland.mcmod.endpoemext.VanillaTextLocator;
@@ -26,27 +26,19 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.function.Predicate;
 
-public final class LangPatchCopyright implements SimpleSynchronousResourceReloadListener {
-    private static final ResourceLocation IDENTIFIER = ResourceLocation.fromNamespaceAndPath("end-poem-extension", "langpatch_copyright");
+public final class LangPatchCopyright implements ResourceManagerReloadListener {
+    private static final Identifier IDENTIFIER = Identifier.fromNamespaceAndPath("end-poem-extension", "langpatch_copyright");
     public static final Logger LOGGER = LogUtils.getLogger();
     private static volatile Map<String, String> poemCredits = Collections.emptyMap();
     private static final Gson GSON = new Gson();
 
     @Override
-    public ResourceLocation getFabricId() {
-        return IDENTIFIER;
-    }
-
-    @Override
     public void onResourceManagerReload(@Nonnull ResourceManager resourceManager) {
-        Map<ResourceLocation, Resource> map = resourceManager.listResources("texts/end_poem",
+        Map<Identifier, Resource> map = resourceManager.listResources("texts/end_poem",
                 id -> "end_poem_extension".equals(id.getNamespace()) && id.getPath().endsWith(".metadata"));
         Map<String, String> newMap = Maps.newHashMap();
-        for (Map.Entry<ResourceLocation, Resource> entry : map.entrySet()) {
-            final String langKey = StringUtils.removeEnd(
-                    StringUtils.removeStart(entry.getKey().getPath(), "texts/end_poem/"),
-                    ".metadata"
-            );
+        for (Map.Entry<Identifier, Resource> entry : map.entrySet()) {
+            final String langKey = trimPath(entry.getKey().getPath());
             try (BufferedReader reader = entry.getValue().openAsReader()) {
                 final JsonObject obj = GSON.fromJson(reader, JsonObject.class);
                 final @Nullable String demoUri = GsonHelper.getAsString(obj, "demo", null);
@@ -58,8 +50,14 @@ public final class LangPatchCopyright implements SimpleSynchronousResourceReload
         poemCredits = newMap;
     }
 
+    private static String trimPath(String path) {
+        path = Strings.CS.removeStart(path, "texts/end_poem/");
+        path = Strings.CS.removeEnd(path, ".metadata");
+        return path;
+    }
+
     public static void load() {
-        ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(new LangPatchCopyright());
+        ResourceLoader.get(PackType.CLIENT_RESOURCES).registerReloader(IDENTIFIER, new LangPatchCopyright());
         EnchantmentLevelLangPatch.registerPatch(
                 Predicate.isEqual("modmenu.descriptionTranslation.end-poem-extension"),
                 (translationStorage, key) -> {

@@ -1,6 +1,6 @@
 plugins {
     id 'architectury-plugin' version '3.4-SNAPSHOT'
-    id 'dev.architectury.loom' version '1.10-SNAPSHOT'
+    id 'dev.architectury.loom' version '1.13-SNAPSHOT'
     id "com.github.johnrengelman.shadow" version "7.1.2" apply false
     id "com.modrinth.minotaur" version "2.+" apply false
 
@@ -52,7 +52,7 @@ allprojects {
         mappings loom.officialMojangMappings()
 
         compileOnly 'com.google.code.findbugs:jsr305:3.0.2'
-        compileOnly 'xland.mcmod:enchlevel-langpatch:2.2.6' // to insert Recommended Pack relevant info
+        compileOnly 'xland.mcmod:enchlevel-langpatch:3.1.0' // to insert Recommended Pack relevant info
     }
 
     processResources {
@@ -125,7 +125,7 @@ subprojects { p ->
     }
 
     remapJar {
-        input.set shadowJar.archiveFile
+        inputFile.set shadowJar.archiveFile
         dependsOn shadowJar
         archiveClassifier.set null
     }

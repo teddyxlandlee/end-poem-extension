@@ -21,7 +21,7 @@ displayName = "End Poem Extension"
 # This is your mod's "homepage" and will be displayed on the mod's information screen in the Mods panel.
 displayURL="https://modrinth.com/mod/end-poem-extension" #optional
 # This will be displayed as your mod's logo in the Mods panel.
-logoFile="icon.png" #optional
+logoFile= "icon_epx.png" #optional
 # Some more fluff displayed in the Mods panel. Feel free to issue your special thanks here!
 # credits="Thanks to Mojang for making this great game" #optional
 # Some more fluff displayed in the Mods panel. Plug your stuff here!
@@ -38,13 +38,13 @@ Embraces translations of End Poem all over the world
 modId = "forge"
 mandatory = true # do you **need** this mod to be able to launch?
 # A version range using interval notation.
-versionRange = "[51,)"
+versionRange = "[61,)"
 ordering = "NONE" # Use this if you want your mod to be loaded specifically BEFORE or AFTER another mod
 side = "CLIENT" # Specify where this mod is required: can be BOTH, CLIENT or SERVER
 
 [[dependencies.endpoemext]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.21,1.21.11)"
+versionRange = "[1.21.11,)"
 ordering = "NONE"
 side = "BOTH"

@@ -1,7 +1,7 @@
 package xland.mcmod.endpoemext.mixin;
 
 import it.unimi.dsi.fastutil.ints.IntSet;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.injection.At;
@@ -23,7 +23,7 @@ abstract class CreditsScreenMixin {
     abstract IntSet epx$centeredLines();
 
     @Inject(at = @At("HEAD"), method = "wrapCreditsIO", cancellable = true)
-    private void injectLoadText(ResourceLocation id, @Coerce Object reader, CallbackInfo ci) {
+    private void injectLoadText(Identifier id, @Coerce Object reader, CallbackInfo ci) {
         if (Locators.tryRedirect(id.getPath(), epx$lines(), epx$centeredLines()))
             ci.cancel();
     }

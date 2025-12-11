@@ -1,16 +1,16 @@
 package xland.mcmod.endpoemext;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class IndexedPoemLikeLocator extends IndexedLocator {
-    private final ResourceLocation indexPath;
+    private final Identifier indexPath;
 
-    public IndexedPoemLikeLocator(ResourceLocation indexPath) {
+    public IndexedPoemLikeLocator(Identifier indexPath) {
         this.indexPath = indexPath;
     }
 
     @Override
-    protected ResourceLocation getIndexPath() {
+    protected Identifier getIndexPath() {
         return indexPath;
     }
 

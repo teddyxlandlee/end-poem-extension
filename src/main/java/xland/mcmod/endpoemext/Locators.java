@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 
 import java.util.List;
 import net.minecraft.client.Minecraft;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.FormattedCharSequence;
 
@@ -15,11 +15,11 @@ public final class Locators {
 
     static final Logger LOGGER = LogUtils.getLogger();
 
-    private static final ResourceLocation PRE_POEM = ResourceLocation.fromNamespaceAndPath("end_poem_extension", "poem_pre.json");
-    private static final ResourceLocation POST_POEM = ResourceLocation.fromNamespaceAndPath("end_poem_extension", "poem_post.json");
-    private static final ResourceLocation PRE_MOJANG_CREDITS = ResourceLocation.fromNamespaceAndPath("end_poem_extension", "pre_mojang_credits.json");
-    private static final ResourceLocation PRE_POSTCREDITS = ResourceLocation.fromNamespaceAndPath("end_poem_extension", "pre_postcredits.json");
-    private static final ResourceLocation POST_POSTCREDITS = ResourceLocation.fromNamespaceAndPath("end_poem_extension", "post_postcredits.json");
+    private static final Identifier PRE_POEM = Identifier.fromNamespaceAndPath("end_poem_extension", "poem_pre.json");
+    private static final Identifier POST_POEM = Identifier.fromNamespaceAndPath("end_poem_extension", "poem_post.json");
+    private static final Identifier PRE_MOJANG_CREDITS = Identifier.fromNamespaceAndPath("end_poem_extension", "pre_mojang_credits.json");
+    private static final Identifier PRE_POSTCREDITS = Identifier.fromNamespaceAndPath("end_poem_extension", "pre_postcredits.json");
+    private static final Identifier POST_POSTCREDITS = Identifier.fromNamespaceAndPath("end_poem_extension", "post_postcredits.json");
 
     private static final String ID_END = "texts/end.txt";
     private static final String ID_CREDITS = "texts/credits.json";

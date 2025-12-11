@@ -3,12 +3,12 @@ package xland.mcmod.endpoemext;
 import java.io.FileNotFoundException;
 import java.util.Collections;
 import java.util.List;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 
 public class MojangCreditsLocator implements Locator {
-    private static final ResourceLocation MOJANG_CREDITS = ResourceLocation.withDefaultNamespace("texts/credits.json");
+    private static final Identifier MOJANG_CREDITS = Identifier.withDefaultNamespace("texts/credits.json");
 
     @Override
     public List<Resource> locate(ResourceManager manager) {

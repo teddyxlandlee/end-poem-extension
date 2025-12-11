@@ -2,7 +2,7 @@ package xland.mcmod.endpoemext;
 
 import com.google.gson.JsonArray;
 import com.mojang.logging.LogUtils;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.GsonHelper;
@@ -18,7 +18,7 @@ public abstract class IndexedLocator implements Locator {
 
     @Override
     public List<Resource> locate(ResourceManager manager) {
-        final ResourceLocation indexPath = getIndexPath();
+        final Identifier indexPath = this.getIndexPath();
         //final Optional<Resource> index = manager.getResource(indexPath);
         final List<Resource> allResources = manager.getResourceStack(indexPath);
         if (allResources.isEmpty())
@@ -31,7 +31,7 @@ public abstract class IndexedLocator implements Locator {
                 final JsonArray arr = GsonHelper.parseArray(reader);
                 for (var e : arr) {
                     if (GsonHelper.isStringValue(e)) {
-                        resources.add(manager.getResourceOrThrow(ResourceLocation.parse(e.getAsString())));
+                        resources.add(manager.getResourceOrThrow(Identifier.parse(e.getAsString())));
                     } else if (e.isJsonObject()) {
                         var o = e.getAsJsonObject();
                         boolean isI18n = GsonHelper.getAsBoolean(o, "is_i18n", false);
@@ -39,11 +39,11 @@ public abstract class IndexedLocator implements Locator {
                         String suffix = GsonHelper.getAsString(o, "default_suffix", defaultSuffix);
                         if (isI18n) {
                             String p0 = transformDir(path) + VanillaTextLocator.getLangCode() + '.' + suffix;
-                            resources.add(manager.getResource(ResourceLocation.parse(p0))
-                                    .or(() -> manager.getResource(ResourceLocation.parse(transformDir(path) + "en_us." + suffix)))
+                            resources.add(manager.getResource(Identifier.parse(p0))
+                                    .or(() -> manager.getResource(Identifier.parse(transformDir(path) + "en_us." + suffix)))
                                     .orElseThrow(() -> new FileNotFoundException("i18n resource: " + path)));
                         } else {
-                            resources.add(manager.getResourceOrThrow(ResourceLocation.parse(path)));
+                            resources.add(manager.getResourceOrThrow(Identifier.parse(path)));
                         }
                     }
                 }
@@ -55,7 +55,7 @@ public abstract class IndexedLocator implements Locator {
         return resources;
     }
 
-    protected abstract ResourceLocation getIndexPath();
+    protected abstract Identifier getIndexPath();
     protected String defaultSuffix() { return "txt"; }
 
     @Override

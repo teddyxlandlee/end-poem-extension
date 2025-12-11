@@ -5,7 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.util.GsonHelper;
 import org.slf4j.Logger;
@@ -35,7 +35,7 @@ public record SplashModification(
     }
 
     private static final Logger LOGGER = LogUtils.getLogger();
-    private static final ResourceLocation SPLASH_MODIFICATION = ResourceLocation.withDefaultNamespace("texts/splash_modify.json");
+    private static final Identifier SPLASH_MODIFICATION = Identifier.withDefaultNamespace("texts/splash_modify.json");
 
     public static List<String> modify(List<String> list) {
         list = new ArrayList<>(list);
