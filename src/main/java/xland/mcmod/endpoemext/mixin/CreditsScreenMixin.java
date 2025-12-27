@@ -15,7 +15,7 @@ import net.minecraft.client.gui.screens.WinScreen;
 import net.minecraft.util.FormattedCharSequence;
 
 @Mixin(WinScreen.class)
-abstract class CreditsScreenMixin {
+public abstract class CreditsScreenMixin {
     @Accessor("lines")
     abstract List<FormattedCharSequence> epx$lines();
 

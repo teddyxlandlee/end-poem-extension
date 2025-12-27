@@ -15,30 +15,31 @@ import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 public record SplashModification(
-        Collection<String> add,
-        Collection<String> remove
+        Collection<String> adds,
+        Collection<String> removes
 ) {
     public SplashModification() {
         this(new LinkedHashSet<>(), new LinkedHashSet<>());
     }
 
     private void add(String s) {
-        remove.remove(s);
-        add.add(s);
+        removes.remove(s);
+        adds.add(s);
     }
 
     private void remove(String s) {
-        add.remove(s);
-        remove.add(s);
+        adds.remove(s);
+        removes.add(s);
     }
 
     private static final Logger LOGGER = LogUtils.getLogger();
     private static final Identifier SPLASH_MODIFICATION = Identifier.withDefaultNamespace("texts/splash_modify.json");
 
-    public static List<String> modify(List<String> list) {
-        list = new ArrayList<>(list);
+    private static SplashModification readModifications() {
         var resourceManager = Minecraft.getInstance().getResourceManager();
         SplashModification modification = new SplashModification();
 
@@ -51,9 +52,24 @@ public record SplashModification(
                 LOGGER.error("Failed to read splash config from {}", SPLASH_MODIFICATION, e);
             }
         }
+        return modification;
+    }
 
-        list.addAll(modification.add());
-        list.removeAll(modification.remove());
+    public static Stream<String> modify(Stream<String> stream) {
+        SplashModification modification = readModifications();
+
+        stream = Stream.concat(stream, modification.adds().stream());
+        stream = stream.filter(Predicate.not(modification.removes()::contains));
+        return stream;
+    }
+
+    @Deprecated(since = "Minecraft 1.21.11")
+    public static List<String> modify(List<String> list) {
+        list = new ArrayList<>(list);
+        SplashModification modification = readModifications();
+
+        list.addAll(modification.adds());
+        list.removeAll(modification.removes());
         return list;
     }
 
@@ -64,4 +80,10 @@ public record SplashModification(
             c.accept(GsonHelper.convertToString(e, key));
         }
     }
+
+    @Deprecated
+    public Collection<String> remove() { return this.removes(); }
+
+    @Deprecated
+    public Collection<String> add() { return this.adds(); }
 }
