@@ -33,7 +33,7 @@ dependencies {
 
 tasks.processResources {
     inputs.property("version", project.version)
-//    filteringCharset("UTF-8")
+    filteringCharset = "UTF-8"
 
     filesMatching(listOf("META-INF/mods.toml", "META-INF/neoforge.mods.toml", "fabric.mod.json")) {
         expand("version" to project.version)

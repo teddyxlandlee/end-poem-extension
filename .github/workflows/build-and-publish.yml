@@ -3,7 +3,7 @@ name: Build / Publish to Modrinth
 on:
   push:
     branches:
-      - 1.21-all
+      - '26.1'
 
 jobs:
   build:
