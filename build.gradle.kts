@@ -27,7 +27,7 @@ dependencies {
 
     implementation("net.fabricmc:fabric-loader:${rootProject.ext["fabric_loader_version"]}")
     // to insert Recommended Pack relevant info
-    implementation("net.fabricmc.fabric-api:fabric-resource-loader-v1:${rootProject.ext["fabric_resource_loader_v1_version"]}")
+    implementation(fabricApi.module("fabric-resource-loader-v1", rootProject.ext["fabric_api_version"].toString()))
     compileOnly("xland.mcmod:enchlevel-langpatch:3.1.0")
 }
 

@@ -57,7 +57,7 @@ public final class LangPatchCopyright implements ResourceManagerReloadListener {
     }
 
     public static void load() {
-        ResourceLoader.get(PackType.CLIENT_RESOURCES).registerReloader(IDENTIFIER, new LangPatchCopyright());
+        ResourceLoader.get(PackType.CLIENT_RESOURCES).registerReloadListener(IDENTIFIER, new LangPatchCopyright());
         EnchantmentLevelLangPatch.registerPatch(
                 Predicate.isEqual("modmenu.descriptionTranslation.end-poem-extension"),
                 (translationStorage, key) -> {
