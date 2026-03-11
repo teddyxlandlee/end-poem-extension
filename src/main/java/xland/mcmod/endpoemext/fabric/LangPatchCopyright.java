@@ -14,7 +14,7 @@ import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraft.util.GsonHelper;
 import org.apache.commons.lang3.Strings;
-import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.NotNullByDefault;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import xland.mcmod.enchlevellangpatch.api.EnchantmentLevelLangPatch;
@@ -26,17 +26,18 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.function.Predicate;
 
+@NotNullByDefault
 public final class LangPatchCopyright implements ResourceManagerReloadListener {
     private static final Identifier IDENTIFIER = Identifier.fromNamespaceAndPath("end-poem-extension", "langpatch_copyright");
     public static final Logger LOGGER = LogUtils.getLogger();
-    private static volatile Map<String, String> poemCredits = Collections.emptyMap();
+    private static volatile Map<String, @Nullable String> poemCredits = Collections.emptyMap();
     private static final Gson GSON = new Gson();
 
     @Override
-    public void onResourceManagerReload(@NotNull ResourceManager resourceManager) {
+    public void onResourceManagerReload(ResourceManager resourceManager) {
         Map<Identifier, Resource> map = resourceManager.listResources("texts/end_poem",
                 id -> "end_poem_extension".equals(id.getNamespace()) && id.getPath().endsWith(".metadata"));
-        Map<String, String> newMap = Maps.newHashMap();
+        Map<String, @Nullable String> newMap = Maps.newHashMap();
         for (Map.Entry<Identifier, Resource> entry : map.entrySet()) {
             final String langKey = trimPath(entry.getKey().getPath());
             try (BufferedReader reader = entry.getValue().openAsReader()) {
@@ -62,7 +63,7 @@ public final class LangPatchCopyright implements ResourceManagerReloadListener {
                 Predicate.isEqual("modmenu.descriptionTranslation.end-poem-extension"),
                 (translationStorage, key) -> {
                     final String originTranslation = translationStorage.get(key);
-                    final Map<String, String> credits = poemCredits;
+                    final Map<String, @Nullable String> credits = poemCredits;
                     @Nullable String o = credits.get(VanillaTextLocator.getLangCode());
                     if (o == null) {
                         return originTranslation;

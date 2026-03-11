@@ -8,6 +8,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.util.GsonHelper;
+import org.jetbrains.annotations.NotNullByDefault;
 import org.slf4j.Logger;
 
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
+@NotNullByDefault
 public record SplashModification(
         Collection<String> adds,
         Collection<String> removes

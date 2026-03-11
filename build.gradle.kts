@@ -29,6 +29,7 @@ dependencies {
     // to insert Recommended Pack relevant info
     implementation(fabricApi.module("fabric-resource-loader-v1", rootProject.ext["fabric_api_version"].toString()))
     compileOnly("xland.mcmod:enchlevel-langpatch:3.1.0")
+    compileOnly("org.jetbrains:annotations:26.1.0")
 }
 
 tasks.processResources {
