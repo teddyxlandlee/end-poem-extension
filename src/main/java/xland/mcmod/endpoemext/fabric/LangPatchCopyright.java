@@ -16,6 +16,7 @@ import net.minecraft.util.GsonHelper;
 import org.apache.commons.lang3.Strings;
 import org.jetbrains.annotations.NotNullByDefault;
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.Unmodifiable;
 import org.slf4j.Logger;
 import xland.mcmod.enchlevellangpatch.api.EnchantmentLevelLangPatch;
 import xland.mcmod.endpoemext.VanillaTextLocator;
@@ -30,7 +31,7 @@ import java.util.function.Predicate;
 public final class LangPatchCopyright implements ResourceManagerReloadListener {
     private static final Identifier IDENTIFIER = Identifier.fromNamespaceAndPath("end-poem-extension", "langpatch_copyright");
     public static final Logger LOGGER = LogUtils.getLogger();
-    private static volatile Map<String, @Nullable String> poemCredits = Collections.emptyMap();
+    private static volatile @Unmodifiable Map<String, @Nullable String> poemCredits = Collections.emptyMap();
     private static final Gson GSON = new Gson();
 
     @Override
@@ -48,7 +49,7 @@ public final class LangPatchCopyright implements ResourceManagerReloadListener {
                 LOGGER.warn("Failed to load poem translation metadata in language `{}`", langKey, e);
             }
         }
-        poemCredits = newMap;
+        poemCredits = Collections.unmodifiableMap(newMap);
     }
 
     private static String trimPath(String path) {

@@ -82,10 +82,4 @@ public record SplashModification(
             c.accept(GsonHelper.convertToString(e, key));
         }
     }
-
-    @Deprecated(forRemoval = true)
-    public Collection<String> remove() { return this.removes(); }
-
-    @Deprecated(forRemoval = true)
-    public Collection<String> add() { return this.adds(); }
 }
