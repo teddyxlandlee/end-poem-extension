@@ -2,7 +2,7 @@ import java.time.Instant
 import java.time.temporal.ChronoUnit
 
 plugins {
-    id("net.fabricmc.fabric-loom") version "1.14-SNAPSHOT"
+    id("net.fabricmc.fabric-loom") version "1.16-SNAPSHOT"
     id("com.modrinth.minotaur") version "2.+" apply false
 
     `maven-publish`

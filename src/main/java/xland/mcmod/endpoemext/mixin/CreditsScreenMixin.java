@@ -23,8 +23,8 @@ public abstract class CreditsScreenMixin {
     abstract IntSet epx$centeredLines();
 
     @Inject(at = @At("HEAD"), method = "wrapCreditsIO", cancellable = true)
-    private void injectLoadText(Identifier id, @Coerce Object reader, CallbackInfo ci) {
-        if (Locators.tryRedirect(id.getPath(), epx$lines(), epx$centeredLines()))
+    private void injectLoadText(Identifier file, @Coerce Object creditsReader, CallbackInfo ci) {
+        if (Locators.tryRedirect(file.getPath(), epx$lines(), epx$centeredLines()))
             ci.cancel();
     }
 }
