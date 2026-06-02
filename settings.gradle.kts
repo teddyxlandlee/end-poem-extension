@@ -7,5 +7,8 @@ pluginManagement {
         maven("https://maven.neoforged.net/releases")
         maven("https://maven.minecraftforge.net")
         gradlePluginPortal()
+        maven("https://maven.hixland.com")
     }
 }
+
+include("common")
