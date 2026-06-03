@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "id": "end-poem-extension",
+  "version": "${version}",
+  "name": "End Poem Extension",
+  "description": "Embraces translations of End Poem all over the world",
+  "authors": [
+    "teddyxlandlee"
+  ],
+  "contact": {
+    "issues": "https://github.com/teddyxlandlee/end-poem-extension/issues",
+    "homepage": "https://modrinth.com/mod/end-poem-extension"
+  },
+  "license": "Apache-2.0",
+  "icon": "icon_epx.png",
+  "environment": "client",
+  "mixins": [
+    "epx-1.21.11.mixins.json"
+  ],
+  "entrypoints": {
+  },
+  "depends": {
+    "fabricloader": ">=0.19",
+    "minecraft": ">=1.21.11- <26",
+    "fabric-resource-loader-v0": "*"
+  },
+  "conflicts": {
+    "somesplashmodifications": "<2"
+  },
+  "custom": {
+    "modmenu": {
+      "links": {
+        "modmenu.viewCredits": "https://epx-packs.mods.hixland.com/v2/translation_copyright.html"
+      }
+    }
+  }
+}
