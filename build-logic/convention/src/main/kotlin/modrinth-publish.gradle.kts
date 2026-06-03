@@ -48,7 +48,8 @@ data class SharedMRInfo(
 data class SubprojectMRInfo(
     val shared: SharedMRInfo,
 
-    val jarTask: Provider<Task>,
+//    val primaryFile: RegularFileProperty,
+    val jarTask: Provider<AbstractArchiveTask>,
     val sourcesJarTask: Provider<Task>,
     val loaders: List<String>,
     val loaderName: String,
@@ -102,7 +103,8 @@ if (project.plugins.hasPlugin("multiplatform-common")) {
 
             SubprojectMRInfo(
                 sharedMRInfo,
-                p.tasks.named("remapJar"), p.tasks.named("remapSourcesJar"),
+                p.tasks.named<AbstractArchiveTask>("remapJar"),
+                p.tasks.named("remapSourcesJar"),
                 loaders, loaderName, versionNumber,
             )
         }
@@ -115,7 +117,7 @@ if (project.plugins.hasPlugin("multiplatform-common")) {
 
     val subprojectMRInfo = SubprojectMRInfo(
         sharedMRInfo,
-        project.tasks.named("jar"), project.tasks.named("sourcesJar"),
+        project.tasks.named<AbstractArchiveTask>("jar"), project.tasks.named("sourcesJar"),
         loaders, loaderName, versionNumber,
     )
     uploadConfigs.add(project to subprojectMRInfo)
@@ -123,15 +125,16 @@ if (project.plugins.hasPlugin("multiplatform-common")) {
 
 uploadConfigs.forEach { (p, info) ->
     p.apply(plugin="com.modrinth.minotaur")
+
     p.extensions.configure<ModrinthExtension>("modrinth") {
         detectLoaders = false
 
-        token = System.getenv("MR_TOKEN") ?: "invalid"
+        token = providers.environmentVariable("MR_TOKEN").orElse("invalid")
         projectId = modrinthProjectId
         versionNumber = info.versionNumber
         versionName = info.versionTitle
         changelog = versionChangelog
-        uploadFile.set(info.jarTask)
+        file.set(info.jarTask.flatMap { it.archiveFile })
         additionalFiles.set(listOf(info.sourcesJarTask))
         versionType = modrinthVersionType
         gameVersions = info.shared.supportedVersions
@@ -142,7 +145,12 @@ uploadConfigs.forEach { (p, info) ->
             optional.project("remote-resource-pack")
         }
 
-        debugMode = "1" == System.getenv("MR_DEBUG")
+//        debugMode = "1" == System.getenv("MR_DEBUG")
+        debugMode = providers.environmentVariable("MR_DEBUG").orElse("").map(String::isNotBlank)
     }
     modrinthPublishAll.dependsOn(p.tasks.modrinth)
+
+    p.tasks.modrinth {
+        dependsOn(info.jarTask, info.sourcesJarTask)
+    }
 }

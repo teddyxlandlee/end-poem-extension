@@ -16,8 +16,10 @@ dependencies {
     implementation(gradleKotlinDsl())
 
     implementation("architectury-plugin:architectury-plugin.gradle.plugin:3.5-SNAPSHOT")
-    implementation("dev.architectury:architectury-loom:1.13-SNAPSHOT")
+    implementation("dev.architectury:architectury-loom:1.14-SNAPSHOT")
     implementation("com.gradleup.shadow:shadow-gradle-plugin:9.4.2")
+
+    implementation("net.neoforged:moddev-gradle:2.0.+")
 
     implementation("com.modrinth.minotaur:Minotaur:2.+")
 }

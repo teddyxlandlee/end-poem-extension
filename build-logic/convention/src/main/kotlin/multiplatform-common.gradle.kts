@@ -1,5 +1,4 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar.Companion.shadowJar
-import net.fabricmc.loom.task.AbstractRemapJarTask
 
 plugins {
     id("architectury-plugin")
@@ -60,12 +59,8 @@ allprojects {
 
     java.withSourcesJar()
 
-    tasks.withType<Jar>().configureEach {
+    tasks.withType<AbstractArchiveTask>().configureEach {
         archiveVersion.set("${project.version}+$mcVersion")
-    }
-
-    tasks.withType<AbstractRemapJarTask>().configureEach {
-        archiveVersion.set("${project.version}+${mcVersion}")
     }
 }
 
@@ -147,11 +142,7 @@ subprojects {
         }
     }
 
-    tasks.withType<Jar>().configureEach {
-        archiveAppendix.set(project.name)
-    }
-
-    tasks.withType<AbstractRemapJarTask>().configureEach {
+    tasks.withType<AbstractArchiveTask>().configureEach {
         archiveAppendix.set(project.name)
     }
 
