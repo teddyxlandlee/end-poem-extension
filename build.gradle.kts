@@ -4,6 +4,10 @@ plugins {
     id("com.gradleup.shadow") version "9.4.2" apply false
 }
 
+tasks.register("modrinthPublishAll") {
+    description = "Publish all subversions to Modrinth"
+}
+
 allprojects {
     version = rootProject.ext["mod_version"]!!
     group = rootProject.ext["maven_group"]!!

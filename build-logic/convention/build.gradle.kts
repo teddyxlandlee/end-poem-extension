@@ -18,4 +18,6 @@ dependencies {
     implementation("architectury-plugin:architectury-plugin.gradle.plugin:3.5-SNAPSHOT")
     implementation("dev.architectury:architectury-loom:1.13-SNAPSHOT")
     implementation("com.gradleup.shadow:shadow-gradle-plugin:9.4.2")
+
+    implementation("com.modrinth.minotaur:Minotaur:2.+")
 }
