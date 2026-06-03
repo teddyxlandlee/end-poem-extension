@@ -122,7 +122,12 @@ public class ClientEnvironmentImpl implements ClientEnvironment {
         }
     }
 
-    static Identifier toVanillaId(NamespacedKey key) {
+    public static Identifier toVanillaId(NamespacedKey key) {
         return Identifier.fromNamespaceAndPath(key.namespace(), key.path());
+    }
+
+    public static NamespacedKey fromVanillaId(Identifier id) {
+        //noinspection PatternValidation
+        return NamespacedKey.of(id.getNamespace(), id.getPath());
     }
 }

@@ -18,6 +18,9 @@
     "epx-26.2.mixins.json"
   ],
   "entrypoints": {
+    "enchlevel-langpatch:init": [
+      "xland.mcmod.epx.v4.fabric.LangPatchCopyright::init"
+    ]
   },
   "depends": {
     "fabricloader": ">=0.19",

@@ -18,11 +18,14 @@
     "epx-1.21.11.mixins.json"
   ],
   "entrypoints": {
+    "enchlevel-langpatch:init": [
+      "xland.mcmod.epx.v4.fabric.LangPatchCopyright::init"
+    ]
   },
   "depends": {
     "fabricloader": ">=0.19",
     "minecraft": ">=1.21.11- <26",
-    "fabric-resource-loader-v0": "*"
+    "fabric-resource-loader-v1": "*"
   },
   "conflicts": {
     "somesplashmodifications": "<2"

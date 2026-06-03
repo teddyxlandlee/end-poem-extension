@@ -122,7 +122,12 @@ public class ClientEnvironmentImpl implements ClientEnvironment {
         }
     }
 
-    static ResourceLocation toVanillaId(NamespacedKey key) {
+    public static ResourceLocation toVanillaId(NamespacedKey key) {
         return new ResourceLocation(key.namespace(), key.path());
+    }
+
+    public static NamespacedKey fromVanillaId(ResourceLocation id) {
+        //noinspection PatternValidation
+        return NamespacedKey.of(id.getNamespace(), id.getPath());
     }
 }
