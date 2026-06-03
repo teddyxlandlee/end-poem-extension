@@ -1,5 +1,6 @@
 plugins {
     id("multiplatform-common")
+    id("modrinth-publish")
 }
 
 allprojects {

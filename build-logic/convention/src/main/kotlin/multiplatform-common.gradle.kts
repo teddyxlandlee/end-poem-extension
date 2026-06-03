@@ -37,7 +37,8 @@ val mixinExtrasVersion = "0.3.5"    // Used by NeoForge 21.1.x
 dependencies {
     add("epxCommon", project(":common"))
     implementation("net.fabricmc:sponge-mixin:$mixinVersion")
-    implementation("io.github.llamalad7:mixinextras-common:$mixinExtrasVersion")
+    compileOnly("io.github.llamalad7:mixinextras-common:$mixinExtrasVersion")
+    annotationProcessor("io.github.llamalad7:mixinextras-common:$mixinExtrasVersion")
 }
 
 tasks.withType<Jar>().configureEach {
