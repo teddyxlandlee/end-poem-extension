@@ -1,0 +1,33 @@
+modLoader = "lowcodefml"
+loaderVersion = "[46,)"
+license = "Apache-2.0"
+
+issueTrackerURL="https://github.com/teddyxlandlee/end-poem-extension/issues"    #optional
+
+[[mods]]
+modId = "endpoemext"
+
+version = "${version}"
+displayName = "End Poem Extension"
+
+displayURL="https://modrinth.com/mod/end-poem-extension"    #optional
+logoFile="icon_epx.png" #optional
+# credits="Thanks to Mojang for making this great game" #optional
+authors="teddyxlandlee" #optional
+description = '''
+Embraces translations of End Poem all over the world
+'''
+
+[[dependencies.endpoemext]]
+modId = "forge"
+mandatory = true
+versionRange = "[46,)"
+ordering = "NONE"
+side = "CLIENT"
+
+[[dependencies.endpoemext]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.20,1.20.1]"
+ordering = "NONE"
+side = "BOTH"

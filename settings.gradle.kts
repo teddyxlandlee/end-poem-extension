@@ -9,6 +9,10 @@ pluginManagement {
         gradlePluginPortal()
         maven("https://maven.hixland.com")
     }
+
+    includeBuild("build-logic")
 }
 
 include("common")
+include("1.20.1", "1.20.1:fabric", "1.20.1:forge")
+include("1.21.1", "1.21.1:fabric", "1.21.1:neoforge")

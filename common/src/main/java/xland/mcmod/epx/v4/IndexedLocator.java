@@ -20,7 +20,7 @@ public abstract class IndexedLocator implements Locator {
     public List<ClientResource> locate(ClientResourceManager manager) {
         final NamespacedKey indexPath = this.getIndexPath();
         //final Optional<Resource> index = manager.getResource(indexPath);
-        final Collection<ClientResource> allResources;
+        final Collection<? extends ClientResource> allResources;
         try {
             allResources = manager.readResources(indexPath);
         } catch (Exception e) {

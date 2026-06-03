@@ -41,7 +41,7 @@ public record SplashModification(
     private static SplashModification readModifications() {
         SplashModification modification = new SplashModification();
 
-        Iterable<ClientResource> resources;
+        Iterable<? extends ClientResource> resources;
         try {
             resources = ClientEnvironment.getInstance().getResourceManager().readResources(SPLASH_MODIFICATION);
         } catch (Exception e) {

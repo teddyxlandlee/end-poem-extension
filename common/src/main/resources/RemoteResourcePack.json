@@ -1,6 +1,6 @@
 {
   "end-poem-extension/recommended-packs-v2.json": {
-    "configVersion": 3,
+    "configVersion": 4,
     "_description": [
       "End Poem Extension Recommended Pack",
       "Contents may differ between downloads as they are picked randomly"
@@ -11,8 +11,8 @@
       "splashes": 0
     },
 
-    "zipconfig": "https://packs.epx.mc.7c7.org/v2/dl/zipconfig.json",
-    "base": "https://packs.epx.mc.7c7.org/v2/dl/index.html",
+    "zipconfig": "https://epx-packs.mods.hixland.com/v2/dl/zipconfig.json",
+    "base": "https://epx-packs.mods.hixland.com/v2/dl/index.html",
     "schema": 1
   }
 }

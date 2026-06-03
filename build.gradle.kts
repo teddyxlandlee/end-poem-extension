@@ -1,6 +1,7 @@
 plugins {
     java
     id("com.modrinth.minotaur") version "2.+" apply false
+    id("com.gradleup.shadow") version "9.4.2" apply false
 }
 
 allprojects {
@@ -8,6 +9,10 @@ allprojects {
     group = rootProject.ext["maven_group"]!!
 
     apply(plugin="java")
+
+    base {
+        archivesName = rootProject.ext["archives_base_name"].toString()
+    }
 
     repositories {
         maven("https://maven.neoforged.net/releases") {
@@ -27,15 +32,6 @@ allprojects {
         add("compileOnly", "org.jetbrains:annotations:26.1.0")
     }
 
-    tasks.processResources {
-        inputs.property("version", project.version)
-        filteringCharset = "UTF-8"
-
-        filesMatching(listOf("META-INF/mods.toml", "META-INF/neoforge.mods.toml", "fabric.mod.json")) {
-            expand("version" to project.version)
-        }
-    }
-
     tasks.withType<JavaCompile>().configureEach {
         options.encoding = "UTF-8"
     }
@@ -45,4 +41,11 @@ allprojects {
             rename { "LICENSE_end-poem-extension" }
         }
     }
+
+    java.toolchain {
+        // Max support 26.2+
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+
+    java.withSourcesJar()
 }
