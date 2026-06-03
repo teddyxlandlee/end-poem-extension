@@ -145,7 +145,6 @@ uploadConfigs.forEach { (p, info) ->
             optional.project("remote-resource-pack")
         }
 
-//        debugMode = "1" == System.getenv("MR_DEBUG")
         debugMode = providers.environmentVariable("MR_DEBUG").orElse("").map(String::isNotBlank)
     }
     modrinthPublishAll.dependsOn(p.tasks.modrinth)

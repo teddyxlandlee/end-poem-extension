@@ -162,10 +162,10 @@ subprojects {
         archiveClassifier.set(null as String?)
     }
 
-    tasks.getByName<Jar>("sourcesJar") {
-        val parentProject = project.parent ?: error("Parent project not found")
-        val parentSource = parentProject.tasks.getByName<Jar>("sourcesJar")
-        dependsOn(parentSource)
-        from(parentSource.archiveFile.map { zipTree(it) })
-    }
+//    tasks.getByName<AbstractArchiveTask>("sourcesJar") {
+//        val parentProject = findProject(projectPath) ?: error("Parent project not found")
+//        val parentSource = parentProject.tasks.getByName<AbstractArchiveTask>("sourcesJar")
+//        dependsOn(parentSource)
+//        from(parentSource.archiveFile.map { zipTree(it) })
+//    }
 }

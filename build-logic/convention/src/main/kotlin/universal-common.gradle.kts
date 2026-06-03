@@ -40,6 +40,11 @@ tasks.withType<Jar>().configureEach {
     archiveVersion.set("${project.version}+$mcVersion")
 }
 
+tasks.jar {
+    archiveClassifier.set("dev")
+}
+
 tasks.shadowJar {
     configurations = listOf(shaded)
+    archiveClassifier.set(null as String?)
 }
