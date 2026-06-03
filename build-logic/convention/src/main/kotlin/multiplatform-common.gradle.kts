@@ -1,4 +1,5 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar.Companion.shadowJar
+import net.fabricmc.loom.task.AbstractRemapJarTask
 
 plugins {
     id("architectury-plugin")
@@ -61,6 +62,10 @@ allprojects {
     tasks.withType<Jar>().configureEach {
         archiveVersion.set("${project.version}+$mcVersion")
     }
+
+    tasks.withType<AbstractRemapJarTask>().configureEach {
+        archiveVersion.set("${project.version}+${mcVersion}")
+    }
 }
 
 enum class ModPlatform(
@@ -105,13 +110,12 @@ subprojects {
     configurations.maybeCreate(modPlatform.developmentConfigurationName).apply {
         extendsFrom(common)
     }
-    configurations.maybeCreate("epxCommon").let { epxCommon ->
-        common.extendsFrom(epxCommon)
-        shadowCommon.extendsFrom(epxCommon)
-    }
 
     dependencies {
-        add("epxCommon", project(":common"))
+        add("common", project(":common"))
+        add("shadowCommon", project(":common")) {
+            isTransitive = false
+        }
 
         add("common", project(path=projectPath, configuration="namedElements")) {
             isTransitive = false
@@ -143,6 +147,10 @@ subprojects {
     }
 
     tasks.withType<Jar>().configureEach {
+        archiveAppendix.set(project.name)
+    }
+
+    tasks.withType<AbstractRemapJarTask>().configureEach {
         archiveAppendix.set(project.name)
     }
 
