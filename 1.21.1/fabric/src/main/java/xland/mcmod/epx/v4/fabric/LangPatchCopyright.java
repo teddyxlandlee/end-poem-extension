@@ -32,6 +32,7 @@ public class LangPatchCopyright extends PoemCredits implements SimpleSynchronous
                 ClientEnvironmentImpl.fromVanillaId(e.getKey()),
                 e.getValue()::openAsReader
         )));
+        LOGGER.debug("Loaded poem credits: {}", poemCredits);
     }
 
     public static void init() {

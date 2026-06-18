@@ -117,7 +117,7 @@ if (project.plugins.hasPlugin("multiplatform-common")) {
 
     val subprojectMRInfo = SubprojectMRInfo(
         sharedMRInfo,
-        project.tasks.named<AbstractArchiveTask>("jar"), project.tasks.named("sourcesJar"),
+        project.tasks.named<AbstractArchiveTask>("shadowJar"), project.tasks.named("sourcesJar"),
         loaders, loaderName, versionNumber,
     )
     uploadConfigs.add(project to subprojectMRInfo)

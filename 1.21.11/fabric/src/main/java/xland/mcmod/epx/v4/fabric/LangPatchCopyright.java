@@ -26,6 +26,7 @@ public class LangPatchCopyright extends PoemCredits implements ResourceManagerRe
                 ClientEnvironmentImpl.fromVanillaId(e.getKey()),
                 e.getValue()::openAsReader
         )));
+        LOGGER.debug("Loaded poem credits: {}", poemCredits);
     }
 
     public static void init() {

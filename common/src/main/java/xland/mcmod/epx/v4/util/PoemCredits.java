@@ -15,7 +15,7 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 public abstract class PoemCredits {
-    private static final Logger LOGGER = LogUtils.getLogger();
+    protected static final Logger LOGGER = LogUtils.getLogger();
     public static final NamespacedKey KEY = NamespacedKey.of("end-poem-extension", "langpatch_copyright");
     public static final String RESOURCE_DIR = "texts/end_poem";
 
@@ -33,7 +33,7 @@ public abstract class PoemCredits {
                 final @Nullable String demoUri = JsonHelper.getAsString(obj, "demo", null);
                 newMap.put(langKey, demoUri);
             } catch (Exception e) {
-                LOGGER.warn("Failed to load peom translation metadata in language `{}`", langKey, e);
+                LOGGER.warn("Failed to load poem translation metadata in language `{}`", langKey, e);
             }
         }
         return Collections.unmodifiableMap(newMap);
