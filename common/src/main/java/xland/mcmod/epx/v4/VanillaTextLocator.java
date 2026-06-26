@@ -1,10 +1,11 @@
 package xland.mcmod.epx.v4;
 
+import java.io.FileNotFoundException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
-import com.mojang.logging.LogUtils;
-import org.slf4j.Logger;
+import org.jetbrains.annotations.ApiStatus;
 import xland.mcmod.epx.v4.support.ClientEnvironment;
 import xland.mcmod.epx.v4.support.ClientResource;
 import xland.mcmod.epx.v4.support.ClientResourceManager;
@@ -12,10 +13,23 @@ import xland.mcmod.epx.v4.util.NamespacedKey;
 
 public abstract class VanillaTextLocator implements Locator {
     private final NamespacedKey vanillaPath;
-    private static final Logger LOGGER = LogUtils.getLogger();
+    private final boolean isVanillaResourceSkippable;
+
+    /**
+     * @param vanillaPath Path in vanilla resource pack
+     * @param isVanillaResourceSkippable if set to true, resources under the vanilla path can be
+     *                                   skipped under {@link ClientResource#isShouldSkip()}
+     *                                   convention. Note that resources under {@linkplain #getAlternativePath
+     *                                   alternative path} will <b>not</b> be skippable.
+     */
+    @ApiStatus.AvailableSince("4.1.0")
+    protected VanillaTextLocator(NamespacedKey vanillaPath, boolean isVanillaResourceSkippable) {
+        this.vanillaPath = vanillaPath;
+        this.isVanillaResourceSkippable = isVanillaResourceSkippable;
+    }
 
     protected VanillaTextLocator(NamespacedKey vanillaPath) {
-        this.vanillaPath = vanillaPath;
+        this(vanillaPath, false);
     }
 
     @Override
@@ -23,12 +37,18 @@ public abstract class VanillaTextLocator implements Locator {
         final String langCode = ClientEnvironment.getInstance().getCurrentLanguage();
         NamespacedKey path = getAlternativePath(langCode);
         try {
-            var ret = manager.readFirstResourceOptionally(path);
-            if (ret.isEmpty()) ret = manager.readFirstResourceOptionally(vanillaPath);
-            if (ret.isEmpty()) throw new IllegalStateException(vanillaPath + " is absent in vanilla resource pack");
+            Optional<ClientResource> ret = manager.readFirstResourceOptionally(path);
+
+            if (isVanillaResourceSkippable) {
+                ret = Optional.of(Locators.firstUnskippedOrLast(manager.readResourceStack(vanillaPath), vanillaPath));
+            } else {
+                if (ret.isEmpty()) ret = manager.readFirstResourceOptionally(vanillaPath);
+                if (ret.isEmpty()) throw new FileNotFoundException("Vanilla resource " + vanillaPath + " is absent");
+            }
+
             return Collections.singletonList(ret.get());
         } catch (Exception e) {
-            LOGGER.error("Failed to locate {}", path, e);
+            Locators.LOGGER.error("Failed to locate {}, probed by {}", path, this, e);
             return Collections.emptyList();
         }
     }

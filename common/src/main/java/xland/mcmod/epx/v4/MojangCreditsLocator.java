@@ -13,8 +13,11 @@ public class MojangCreditsLocator implements Locator {
 
     @Override
     public List<ClientResource> locate(ClientResourceManager manager) {
+        List<? extends ClientResource> resources;
+
         try {
-            return Collections.singletonList(manager.readFirstResource(MOJANG_CREDITS));
+            resources = manager.readResourceStack(MOJANG_CREDITS);
+            return Collections.singletonList(Locators.firstUnskippedOrLast(resources, MOJANG_CREDITS));
         } catch (IOException e) {
             throw new IllegalStateException("Failed to load Mojang credits", e);
         }

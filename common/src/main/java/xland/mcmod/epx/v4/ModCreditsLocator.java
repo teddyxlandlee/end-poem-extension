@@ -13,10 +13,11 @@ public class ModCreditsLocator implements Locator {
     public List<ClientResource> locate(ClientResourceManager manager) {
         return manager.getResourceNamespaces().stream()
                 .flatMap(ns -> {
+                    Locators.LOGGER.debug("Locating mod_credits.json in namespace {}", ns);
                     try {
-                        //noinspection PatternValidation
                         return manager.readFirstResourceOptionally(NamespacedKey.of(ns, "texts/mod_credits.json")).stream();
                     } catch (IOException e) {
+                        Locators.LOGGER.debug("Skipped mod_credits.json in namespace {} due to I/O error", ns, e);
                         return Stream.empty();
                     }
                 })

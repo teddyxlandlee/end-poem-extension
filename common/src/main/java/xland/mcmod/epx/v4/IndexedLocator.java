@@ -22,7 +22,7 @@ public abstract class IndexedLocator implements Locator {
         //final Optional<Resource> index = manager.getResource(indexPath);
         final Collection<? extends ClientResource> allResources;
         try {
-            allResources = manager.readResources(indexPath);
+            allResources = manager.readResourceStack(indexPath);
         } catch (Exception e) {
             LOGGER.error("Failed to load {}", indexPath, e);
             return Collections.emptyList();

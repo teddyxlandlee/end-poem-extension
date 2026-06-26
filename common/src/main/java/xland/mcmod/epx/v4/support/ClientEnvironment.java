@@ -1,7 +1,10 @@
 package xland.mcmod.epx.v4.support;
 
+import org.jetbrains.annotations.ApiStatus;
+
 import java.util.ServiceLoader;
 
+@ApiStatus.Internal
 public interface ClientEnvironment {
     static ClientEnvironment getInstance() {
         class Holder {

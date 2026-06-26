@@ -6,7 +6,7 @@ public class PoemLocator extends VanillaTextLocator {
     private static final NamespacedKey VANILLA_POEM = NamespacedKey.ofMinecraft("texts/end.txt");
 
     public PoemLocator() {
-        super(VANILLA_POEM);
+        super(VANILLA_POEM, true);
     }
 
     @Override

@@ -4,9 +4,11 @@ import com.mojang.logging.LogUtils;
 import it.unimi.dsi.fastutil.ints.IntCollection;
 import org.slf4j.Logger;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 
 import xland.mcmod.epx.v4.support.ClientEnvironment;
+import xland.mcmod.epx.v4.support.ClientResource;
 import xland.mcmod.epx.v4.util.NamespacedKey;
 
 public final class Locators {
@@ -71,6 +73,32 @@ public final class Locators {
             default -> {
                 return false;
             }
+        }
+    }
+
+    static ClientResource firstUnskippedOrLast(List<? extends ClientResource> resources, Object key) throws FileNotFoundException {
+        ClientResource lastResource = null;
+
+        for (var itr = resources.listIterator(resources.size()); itr.hasPrevious(); ) {
+            if (Locators.LOGGER.isDebugEnabled()) {
+                int resourceIndex = itr.previousIndex();
+                Locators.LOGGER.debug("Locating {} at stack index {}", key, resourceIndex);
+            }
+            lastResource = itr.previous();
+
+            if (lastResource.isShouldSkip()) continue;
+            return lastResource;
+        }
+
+        if (lastResource == null) {
+            throw new FileNotFoundException(String.valueOf(key));
+        } else {
+            Locators.LOGGER.warn(
+                    "{} in the root layer is present but abnormally marked as skipped." +
+                            "This should not happen in vanilla environment. Forced it as valid.",
+                    key
+            );
+            return lastResource;
         }
     }
 }

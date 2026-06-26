@@ -12,11 +12,11 @@ public interface Locator {
     CreditsElementReader openReader(EndTextAcceptor<?> acceptor);
 
     default void visit(ClientResourceManager manager, EndTextAcceptor<?> acceptor) {
-        for (ClientResource resource : locate(manager)) {
+        for (ClientResource resource : this.locate(manager)) {
             try (Reader reader = resource.openReader()) {
-                openReader(acceptor).read(reader);
+                this.openReader(acceptor).read(reader);
             } catch (Exception e) {
-                Locators.LOGGER.error("Failed to visit resources", e);
+                Locators.LOGGER.error("Failed to visit resources located by {}", this, e);
             }
         }
     }

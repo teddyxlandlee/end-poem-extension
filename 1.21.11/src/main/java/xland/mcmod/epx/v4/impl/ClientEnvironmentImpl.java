@@ -2,11 +2,13 @@ package xland.mcmod.epx.v4.impl;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
+import com.mojang.serialization.Codec;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.Identifier;
+import net.minecraft.server.packs.metadata.MetadataSectionType;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.FormattedCharSequence;
@@ -16,6 +18,8 @@ import org.jetbrains.annotations.Nullable;
 import xland.mcmod.epx.v4.support.*;
 import xland.mcmod.epx.v4.util.NamespacedKey;
 
+import java.io.IOException;
+import java.io.Reader;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -103,10 +107,26 @@ public class ClientEnvironmentImpl implements ClientEnvironment {
     private static final class ClientResourceLoaderImpl implements ClientResourceManager {
         private final ResourceManager vanillaManager = Minecraft.getInstance().getResourceManager();
 
-        private static final Function<Resource, ClientResource> RESOURCE_TRANSFORMER = r -> r::openAsReader;
+        private static final Function<Resource, ClientResource> RESOURCE_TRANSFORMER = r -> new ClientResource() {
+            @Override
+            public Reader openReader() throws IOException {
+                return r.openAsReader();
+            }
+
+            @Override
+            public boolean isShouldSkip() {
+                try {
+                    return r.metadata().getSection(
+                            new MetadataSectionType<>(SKIP_KEY, Codec.PASSTHROUGH)
+                    ).isPresent();
+                } catch (IOException e) {
+                    return ClientResource.super.isShouldSkip();
+                }
+            }
+        };
 
         @Override
-        public Collection<? extends ClientResource> readResources(NamespacedKey key) {
+        public List<? extends ClientResource> readResourceStack(NamespacedKey key) {
             List<Resource> resourceStack = vanillaManager.getResourceStack(toVanillaId(key));
             return Lists.transform(resourceStack, RESOURCE_TRANSFORMER);
         }

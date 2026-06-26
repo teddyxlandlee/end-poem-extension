@@ -1,9 +1,11 @@
 package xland.mcmod.epx.v4.support;
 
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
+@ApiStatus.Experimental
 public record Text(String literal, @Nullable TextFormatting formatting) {
     public static Text of(String literal) {
         return new Text(literal, null);

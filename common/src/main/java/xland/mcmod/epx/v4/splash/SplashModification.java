@@ -43,7 +43,7 @@ public record SplashModification(
 
         Iterable<? extends ClientResource> resources;
         try {
-            resources = ClientEnvironment.getInstance().getResourceManager().readResources(SPLASH_MODIFICATION);
+            resources = ClientEnvironment.getInstance().getResourceManager().readResourceStack(SPLASH_MODIFICATION);
         } catch (Exception e) {
             LOGGER.error("Failed to load splash configs from {}", SPLASH_MODIFICATION, e);
             resources = Collections.emptySet();

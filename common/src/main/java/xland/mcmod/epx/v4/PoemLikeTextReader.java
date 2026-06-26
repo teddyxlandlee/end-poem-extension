@@ -3,8 +3,8 @@ package xland.mcmod.epx.v4;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
-import java.util.Random;
 import java.util.random.RandomGenerator;
+import java.util.random.RandomGeneratorFactory;
 
 import xland.mcmod.epx.v4.support.ClientEnvironment;
 import xland.mcmod.epx.v4.support.TextFormatting;
@@ -20,7 +20,7 @@ public class PoemLikeTextReader extends CreditsElementReader {
     @Override
     protected void read(Reader reader) throws IOException {
         BufferedReader bufferedReader = reader instanceof BufferedReader ? (BufferedReader) reader : new BufferedReader(reader);
-        RandomGenerator random = new Random(8124371L);
+        RandomGenerator random = RandomGeneratorFactory.of("Xoroshiro128PlusPlus").create(0x7bf7d3L);
         int i;
         String s;
         while ((s = bufferedReader.readLine()) != null) {
