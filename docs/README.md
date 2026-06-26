@@ -19,7 +19,7 @@ Currently, Simplified Chinese (`zh_cn`), Cantonese (`zh_hk`), Traditional Chines
 
 Here's a list of files that you can customize:
 
-+**Localized End Poem**: `assets/end_poem_extension/texts/end_poem/xx_xx.txt` where
++ **Localized End Poem**: `assets/end_poem_extension/texts/end_poem/xx_xx.txt` where
   `xx_xx` is replaced with language code.
   + Format: same as vanilla _End Poem_ in `assets/minecraft/texts/end.txt`.
 
