@@ -18,7 +18,9 @@ displayName = "End Poem Extension"
 displayURL="https://modrinth.com/mod/end-poem-extension" #optional
 # This will be displayed as your mod's logo in the Mods panel.
 logoFile="icon_epx.png" #optional
-# credits="Thanks to Mojang for making this great game" #optional
+credits = '''
+Poem translation credits: https://epx-packs.mods.hixland.com/v2/translation_copyright.html
+'''
 authors="teddyxlandlee" #optional
 description = '''
 Embraces translations of End Poem all over the world

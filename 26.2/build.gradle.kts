@@ -13,4 +13,5 @@ dependencies {
 
 //    implementation(fabricApiModule("fabric-resource-loader-v1", "0.150.2+26.2"))
     implementation("net.fabricmc.fabric-api:fabric-resource-loader-v1:2.0.12+d3d844724f")
+    implementation("net.neoforged.fancymodloader:loader:11.0.13")
 }

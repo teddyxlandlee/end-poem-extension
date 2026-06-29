@@ -2,5 +2,6 @@
   "modmenu.nameTranslation.end-poem-extension": "終末之詩擴展補丁",
   "modmenu.descriptionTranslation.end-poem-extension": "匯載寰宇諸語《終末之詩》譯文",
   "modmenu.summaryTranslation.end-poem-extension": "匯載寰宇諸語《終末之詩》譯文",
-  "epx.poem.copyright.loaded_with": "\n\n（已載入 %1$s）"
+  "epx.poem.copyright.loaded_with": "\n\n（已載入 %1$s）",
+  "epx.poem.copyright.post_credits.author": "\n\n尾聲譯者：%1$s"
 }
