@@ -110,10 +110,11 @@ public abstract class PoemCredits {
     //ResourceLoader.get(PackType.CLIENT_RESOURCES).registerReloadListener(IDENTIFIER, new LangPatchCopyright());
     //EnchantmentLevelLangPatch.registerPatch(TRANSLATION_PREDICATE, patchHook(() -> map, I18n::get)::apply;
 
-    public static void patchForgeLike(List<? super String> lines,
+    public static void patchForgeLike(List<@Nullable String> lines,
                                       Supplier<Map<String, @Nullable String>> poemCreditsMap,
                                       Supplier<Map<String, @Nullable String>> postCreditsAuthorMap,
                                       BiFunction<? super String, ? super Object, ? extends String> i18nLoopback) {
         lines.addAll(loadSuffix(poemCreditsMap, postCreditsAuthorMap, i18nLoopback));
+        lines.add(null);
     }
 }

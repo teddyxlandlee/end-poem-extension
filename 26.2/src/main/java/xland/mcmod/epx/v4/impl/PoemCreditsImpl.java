@@ -46,7 +46,7 @@ public class PoemCreditsImpl extends PoemCredits implements ResourceManagerReloa
         EnchantmentLevelLangPatch.registerPatch(TRANSLATION_PREDICATE, patchHook(() -> poemCredits, () -> postCreditsAuthors, I18n::get)::apply);
     }
 
-    public static void appendLines(List<? super String> lines) {
+    public static void appendLines(List<@Nullable String> lines) {
         patchForgeLike(lines, () -> poemCredits, () -> postCreditsAuthors, I18n::get);
     }
 }

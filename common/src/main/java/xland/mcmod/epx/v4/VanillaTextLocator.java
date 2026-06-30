@@ -39,11 +39,13 @@ public abstract class VanillaTextLocator implements Locator {
         try {
             Optional<ClientResource> ret = manager.readFirstResourceOptionally(path);
 
-            if (isVanillaResourceSkippable) {
-                ret = Optional.of(Locators.firstUnskippedOrLast(manager.readResourceStack(vanillaPath), vanillaPath));
-            } else {
-                if (ret.isEmpty()) ret = manager.readFirstResourceOptionally(vanillaPath);
-                if (ret.isEmpty()) throw new FileNotFoundException("Vanilla resource " + vanillaPath + " is absent");
+            if (ret.isEmpty()) {
+                if (isVanillaResourceSkippable) {
+                    ret = Optional.of(Locators.firstUnskippedOrLast(manager.readResourceStack(vanillaPath), vanillaPath));
+                } else {
+                    ret = manager.readFirstResourceOptionally(vanillaPath);
+                    if (ret.isEmpty()) throw new FileNotFoundException("Vanilla resource " + vanillaPath + " is absent");
+                }
             }
 
             return Collections.singletonList(ret.get());
