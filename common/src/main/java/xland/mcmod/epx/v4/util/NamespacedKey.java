@@ -5,8 +5,10 @@ import org.intellij.lang.annotations.Language;
 
 import java.util.regex.Pattern;
 
-public record NamespacedKey(@org.intellij.lang.annotations.Pattern(REGEX_NAMESPACE) String namespace,
-                            @org.intellij.lang.annotations.Pattern(REGEX_PATH) String path) {
+public record NamespacedKey(
+        @org.intellij.lang.annotations.Pattern(REGEX_NAMESPACE) String namespace,
+        @org.intellij.lang.annotations.Pattern(REGEX_PATH) String path
+) implements Comparable<NamespacedKey>, java.io.Serializable {
     private static final @Language("RegExp") String REGEX_NAMESPACE = "^[a-z0-9\\u002e\\u002d_]+$";
     private static final @Language("RegExp") String REGEX_PATH = "^[a-z0-9\\u002e\\u002d_/]+$";
     private static final Pattern PATTERN_NAMESPACE = Pattern.compile(REGEX_NAMESPACE);
@@ -32,7 +34,7 @@ public record NamespacedKey(@org.intellij.lang.annotations.Pattern(REGEX_NAMESPA
     public static NamespacedKey of(@org.intellij.lang.annotations.Pattern("^([0-9a-z_\\-]+:)?[0-9a-z_\\-/]+$") String key) {
         final int i = key.indexOf(':');
         if (i < 0) return ofMinecraft(key);
-        return new NamespacedKey(key.substring(0, i), key.substring(i+1));
+        return new NamespacedKey(key.substring(0, i), key.substring(i + 1));
     }
 
     @SuppressWarnings("PatternValidation")
@@ -43,5 +45,15 @@ public record NamespacedKey(@org.intellij.lang.annotations.Pattern(REGEX_NAMESPA
     @SuppressWarnings("PatternValidation")
     public static NamespacedKey ofMinecraft(@org.intellij.lang.annotations.Pattern(REGEX_PATH) String path) {
         return new NamespacedKey("minecraft", path);
+    }
+
+    @java.io.Serial
+    private static final long serialVersionUID = 1L;
+
+    @Override
+    public int compareTo(NamespacedKey o) {
+        int x = path.compareTo(o.path);
+        if (x == 0) x = namespace.compareTo(o.namespace);
+        return x;
     }
 }
