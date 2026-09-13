@@ -12,6 +12,7 @@ import xland.mcmod.epx.v4.support.TextFormatting;
 
 public class PoemLikeTextReader extends CreditsElementReader {
     private static final String OBFUSCATION_PLACEHOLDER = "" + TextFormatting.WHITE + TextFormatting.OBFUSCATED + TextFormatting.GREEN + TextFormatting.AQUA;
+    private static final String OBF_TEXT_PREFIX = "" + TextFormatting.WHITE + TextFormatting.OBFUSCATED;
     private final String username = ClientEnvironment.getInstance().getUsername();
 
     protected PoemLikeTextReader(EndTextAcceptor<?> acceptor) {
@@ -34,19 +35,28 @@ public class PoemLikeTextReader extends CreditsElementReader {
             );
         }
 
-        int i;
         String s;
         while ((s = bufferedReader.readLine()) != null) {
-            s = s.replaceAll("PLAYERNAME", username);
-            while ((i = s.indexOf(OBFUSCATION_PLACEHOLDER)) >= 0) {
-                String prefix = s.substring(0, i);
-                String suffix = s.substring(i + OBFUSCATION_PLACEHOLDER.length());
-                s = prefix + TextFormatting.WHITE + TextFormatting.OBFUSCATED + "X".repeat(random.nextInt(3, 7)) + suffix;
+            s = s.replace("PLAYERNAME", username);
+            int obfStart;
+
+            if ((obfStart = s.indexOf(OBFUSCATION_PLACEHOLDER)) >= 0) {
+                StringBuilder sb = new StringBuilder(s.length() + 48);
+                int prefixStart = 0;
+                do {
+                    sb.append(s, prefixStart, obfStart);
+                    sb.append(OBF_TEXT_PREFIX).append("X".repeat(random.nextInt(3, 7)));
+
+                    prefixStart = obfStart + OBFUSCATION_PLACEHOLDER.length();
+                } while ((obfStart = s.indexOf(OBFUSCATION_PLACEHOLDER, prefixStart)) >= 0);
+                sb.append(s, prefixStart, s.length());
+                s = sb.toString();
             }
+
             acceptor.addText(s);
             acceptor.addEmptyLine();
         }
-        for (i = 0; i < 8; ++i) {
+        for (int i = 0; i < 8; ++i) {
             acceptor.addEmptyLine();
         }
     }
