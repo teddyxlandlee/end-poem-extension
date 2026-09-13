@@ -1,0 +1,41 @@
+modLoader = "javafml"
+loaderVersion = "[1,)"
+license = "Apache-2.0"
+
+issueTrackerURL="https://github.com/teddyxlandlee/end-poem-extension/issues" #optional
+
+[[mixins]]
+config = "epx-26.3.mixins.json"
+
+[[mixins]]
+config = "epx-26.3-neo.mixins.json"
+
+[[mods]]
+modId = "endpoemext"
+version = "${version}"
+displayName = "End Poem Extension"
+# updateJSONURL="https://changeme.dev/updates.json" #optional
+displayURL="https://modrinth.com/mod/end-poem-extension" #optional
+# This will be displayed as your mod's logo in the Mods panel.
+logoFile="icon_epx.png" #optional
+credits = '''
+Poem translation credits: https://epx-packs.mods.hixland.com/v2/translation_copyright.html
+'''
+authors="teddyxlandlee" #optional
+description = '''
+Embraces translations of End Poem all over the world
+'''
+
+[[dependencies.endpoemext]]
+modId = "neoforge"
+mandatory = true # do you **need** this mod to be able to launch?
+versionRange = "[26,)"
+ordering = "NONE" # Use this if you want your mod to be loaded specifically BEFORE or AFTER another mod
+side = "CLIENT" # Specify where this mod is required: can be BOTH, CLIENT or SERVER
+
+[[dependencies.endpoemext]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[26,)"
+ordering = "NONE"
+side = "BOTH"
