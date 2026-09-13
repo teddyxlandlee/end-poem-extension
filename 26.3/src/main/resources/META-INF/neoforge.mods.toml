@@ -5,10 +5,10 @@ license = "Apache-2.0"
 issueTrackerURL="https://github.com/teddyxlandlee/end-poem-extension/issues" #optional
 
 [[mixins]]
-config = "epx-26.2.mixins.json"
+config = "epx-26.3.mixins.json"
 
 [[mixins]]
-config = "epx-26.2-neo.mixins.json"
+config = "epx-26.3-neo.mixins.json"
 
 [[mods]]
 modId = "endpoemext"

@@ -15,7 +15,7 @@
   "icon": "icon_epx.png",
   "environment": "client",
   "mixins": [
-    "epx-26.2.mixins.json"
+    "epx-26.3.mixins.json"
   ],
   "entrypoints": {
     "enchlevel-langpatch.init": [
