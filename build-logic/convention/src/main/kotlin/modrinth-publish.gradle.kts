@@ -99,7 +99,7 @@ if (project.plugins.hasPlugin("multiplatform-common")) {
 
         val subprojectMRInfo: SubprojectMRInfo = run {
             val (loaders, loaderName) = p.loaderInfo()
-            val versionNumber = "${project.version}-${project.name}+$branchName"
+            val versionNumber = "${project.version}-${loaderName}+$branchName"
 
             SubprojectMRInfo(
                 sharedMRInfo,
