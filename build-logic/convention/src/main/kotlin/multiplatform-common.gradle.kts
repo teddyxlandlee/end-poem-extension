@@ -14,7 +14,7 @@ architectury {
 }
 
 configurations {
-    val epxCommon by creating
+    val epxCommon = create("epxCommon")
     compileClasspath {
         extendsFrom(epxCommon)
     }
@@ -95,8 +95,8 @@ subprojects {
         }
     }
 
-    val common by configurations.creating
-    val shadowCommon by configurations.creating
+    val common = configurations.create("common")
+    val shadowCommon = configurations.create("shadowCommon")
     configurations.compileClasspath {
         extendsFrom(common)
     }

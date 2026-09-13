@@ -10,7 +10,7 @@ modrinth {
     detectLoaders = false
 }
 
-val publishAllToModrinth by rootProject.tasks.getting
+val publishAllToModrinth = rootProject.tasks.named("publishAllToModrinth")
 
 val versionNameFormat = rootProject.ext["mr_version_name_format"].toString()
 val versionChangelog = rootProject.ext["mr_version_changelog"].toString()
@@ -147,7 +147,9 @@ uploadConfigs.forEach { (p, info) ->
 
         debugMode = providers.environmentVariable("MR_DEBUG").orElse("").map(String::isNotBlank)
     }
-    publishAllToModrinth.dependsOn(p.tasks.modrinth)
+    publishAllToModrinth.configure {
+        dependsOn(p.tasks.modrinth)
+    }
 
     p.tasks.modrinth {
         dependsOn(info.jarTask, info.sourcesJarTask)

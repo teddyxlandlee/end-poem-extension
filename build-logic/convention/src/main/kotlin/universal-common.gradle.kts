@@ -10,7 +10,7 @@ neoForge {
     neoFormVersion = "${mcVersion}-1"
 }
 
-val shaded by configurations.creating
+val shaded = configurations.create("shaded")
 
 dependencies {
     implementation(project(":common"))
