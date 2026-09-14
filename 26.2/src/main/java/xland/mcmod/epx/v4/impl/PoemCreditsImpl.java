@@ -4,11 +4,13 @@ import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
 import net.fabricmc.fabric.api.resource.v1.ResourceLoader;
 import net.minecraft.client.resources.language.I18n;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNullByDefault;
 import org.jetbrains.annotations.Nullable;
 import xland.mcmod.enchlevellangpatch.api.EnchantmentLevelLangPatch;
@@ -30,6 +32,14 @@ public class PoemCreditsImpl extends PoemCredits implements ResourceManagerReloa
     protected static volatile Map<String, @Nullable String> poemCredits = Collections.emptyMap();
     protected static volatile Map<String, @Nullable String> postCreditsAuthors = Collections.emptyMap();
 
+    static Map<String, @Nullable String> getPoemCredits() {
+        return poemCredits;
+    }
+
+    static Map<String, @Nullable String> getPostCreditsAuthors() {
+        return postCreditsAuthors;
+    }
+
     @Override
     public void onResourceManagerReload(ResourceManager resourceManager) {
         var map = resourceManager.listResources(RESOURCE_DIR, id -> isMetadataResource(ClientEnvironmentImpl.fromVanillaId(id)));
@@ -43,10 +53,18 @@ public class PoemCreditsImpl extends PoemCredits implements ResourceManagerReloa
 
     public static void initFabric() {
         ResourceLoader.get(PackType.CLIENT_RESOURCES).registerReloadListener(ClientEnvironmentImpl.toVanillaId(KEY), new PoemCreditsImpl());
-        EnchantmentLevelLangPatch.registerPatch(TRANSLATION_PREDICATE, patchHook(() -> poemCredits, () -> postCreditsAuthors, I18n::get)::apply);
+        EnchantmentLevelLangPatch.registerPatch(TRANSLATION_PREDICATE, patchHook(PoemCreditsImpl::getPoemCredits, PoemCreditsImpl::getPostCreditsAuthors, I18n::get)::apply);
     }
 
+    @ApiStatus.Obsolete
     public static void appendLines(List<@Nullable String> lines) {
-        patchForgeLike(lines, () -> poemCredits, () -> postCreditsAuthors, I18n::get);
+        patchForgeLike(lines, PoemCreditsImpl::getPoemCredits, PoemCreditsImpl::getPostCreditsAuthors, I18n::get);
+    }
+
+    public static List<Component> getLinesAsComponent() {
+        return loadSuffix(
+                PoemCreditsImpl::getPoemCredits, PoemCreditsImpl::getPostCreditsAuthors,
+                Component::translatableEscape
+        );
     }
 }

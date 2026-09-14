@@ -74,12 +74,12 @@ public abstract class PoemCredits {
     private static final String LOADED_WITH_KEY = "epx.poem.copyright.loaded_with";
     private static final String POST_CREDITS_AUTHOR_KEY = "epx.poem.copyright.post_credits.author";
 
-    private static List<String> loadSuffix(
+    protected static <T> List<T> loadSuffix(
             Supplier<Map<String, @Nullable String>> poemCreditsMap,
             Supplier<Map<String, @Nullable String>> postCreditsAuthorMap,
-            BiFunction<? super String, ? super Object, ? extends String> i18nLoopback
+            BiFunction<? super String, ? super Object, ? extends T> i18nLoopback
     ) {
-        final var ret = new ArrayList<String>(2);
+        final var ret = new ArrayList<T>(2);
         final String currentLanguage = ClientEnvironment.getInstance().getCurrentLanguage();
         @Nullable String langCredit = poemCreditsMap.get().get(currentLanguage);
         @Nullable String postCreditsAuthor = postCreditsAuthorMap.get().get(currentLanguage);

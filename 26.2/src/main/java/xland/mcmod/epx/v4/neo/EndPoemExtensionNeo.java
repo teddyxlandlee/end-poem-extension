@@ -5,6 +5,7 @@ import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.Event;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import org.jetbrains.annotations.ApiStatus;
 import xland.mcmod.epx.v4.impl.ClientEnvironmentImpl;
@@ -18,7 +19,7 @@ import java.lang.invoke.MethodType;
 
 @Mod("endpoemext")
 public class EndPoemExtensionNeo {
-    public EndPoemExtensionNeo(IEventBus bus, Dist dist) {
+    public EndPoemExtensionNeo(IEventBus bus, Dist dist, ModContainer container) {
         if (dist != Dist.CLIENT) {
             throw new IllegalStateException("End Poem Extension is a client-only mod, but your environment seems to be a server");
         }
@@ -43,6 +44,8 @@ public class EndPoemExtensionNeo {
             );
             addListener.addListener(ClientEnvironmentImpl.toVanillaId(PoemCredits.KEY), new PoemCreditsImpl());
         });
+
+        DisplayInfoFactory.tryApplyDisplayInfo(container);
     }
 
     @FunctionalInterface
