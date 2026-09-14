@@ -55,7 +55,7 @@ public class PoemCreditsImpl extends PoemCredits implements ResourceManagerReloa
         EnchantmentLevelLangPatch.registerPatch(TRANSLATION_PREDICATE, patchHook(PoemCreditsImpl::getPoemCredits, PoemCreditsImpl::getPostCreditsAuthors, I18n::get)::apply);
     }
 
-    @Deprecated
+    @Deprecated(since = "NeoForge 26.2.0.50-beta")
     public static void appendLines(List<@Nullable String> lines) {
         patchForgeLike(lines, PoemCreditsImpl::getPoemCredits, PoemCreditsImpl::getPostCreditsAuthors, I18n::get);
     }

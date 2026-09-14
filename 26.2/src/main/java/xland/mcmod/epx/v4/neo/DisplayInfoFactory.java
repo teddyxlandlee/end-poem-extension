@@ -3,6 +3,7 @@ package xland.mcmod.epx.v4.neo;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.Style;
 import net.neoforged.fml.IExtensionPoint;
 import net.neoforged.fml.ModContainer;
 import org.slf4j.Logger;
@@ -26,15 +27,17 @@ import static java.lang.constant.ConstantDescs.*;
 final class DisplayInfoFactory {
     @SuppressWarnings("unused") // referenced via MethodHandle
     public static Component credits() {
-        final Component poemCredits = Component.translatable("epx.moddisplayinfo.poem_translation_credits")
+        final MutableComponent poemCredits = Component.translatable("epx.moddisplayinfo.poem_translation_credits")
                 .withStyle(s -> s.withClickEvent(new ClickEvent.OpenUrl(
                         URI.create("https://epx-packs.mods.hixland.com/v2/translation_copyright.html")
                 )));
+        final MutableComponent subComponent = Component.empty().setStyle(Style.EMPTY);
+        poemCredits.append(subComponent);
 
         List<Component> lines = PoemCreditsImpl.getLinesAsComponent();
-        MutableComponent ret = Component.empty().append(poemCredits);
-        lines.forEach(ret::append);
-        return ret;
+        lines.forEach(subComponent::append);
+
+        return poemCredits;
     }
 
     @SuppressWarnings("unused") // referenced via MethodHandle
