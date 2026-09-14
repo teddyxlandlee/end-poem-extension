@@ -18,6 +18,7 @@ displayName = "End Poem Extension"
 displayURL="https://modrinth.com/mod/end-poem-extension" #optional
 # This will be displayed as your mod's logo in the Mods panel.
 logoFile="icon_epx.png" #optional
+iconFile="icon_epx.png"
 credits = '''
 Poem translation credits: https://epx-packs.mods.hixland.com/v2/translation_copyright.html
 '''

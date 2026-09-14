@@ -1,5 +1,6 @@
 package xland.mcmod.epx.v4.neo;
 
+import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.neoforged.fml.IExtensionPoint;
@@ -13,22 +14,37 @@ import java.lang.classfile.attribute.SourceFileAttribute;
 import java.lang.constant.ClassDesc;
 import java.lang.constant.DynamicConstantDesc;
 import java.lang.constant.MethodTypeDesc;
-import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
 import java.lang.reflect.AccessFlag;
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
 import static java.lang.constant.ConstantDescs.*;
 
 final class DisplayInfoFactory {
-    // wrap `Component DefaultModDisplayInfo.description()`
-    public static Component appendLines(Component old) {
+    @SuppressWarnings("unused") // referenced via MethodHandle
+    public static Component credits() {
+        final Component poemCredits = Component.translatable("epx.moddisplayinfo.poem_translation_credits")
+                .withStyle(s -> s.withClickEvent(new ClickEvent.OpenUrl(
+                        URI.create("https://epx-packs.mods.hixland.com/v2/translation_copyright.html")
+                )));
+
         List<Component> lines = PoemCreditsImpl.getLinesAsComponent();
-        MutableComponent ret = Component.empty().append(old).append("\n");
-        lines.forEach(c -> ret.append("\n").append(c));
+        MutableComponent ret = Component.empty().append(poemCredits);
+        lines.forEach(ret::append);
         return ret;
+    }
+
+    @SuppressWarnings("unused") // referenced via MethodHandle
+    public static Component displayName() {
+        return Component.translatable("modmenu.nameTranslation.end-poem-extension");
+    }
+
+    @SuppressWarnings("unused") // referenced via MethodHandle
+    public static Component description() {
+        return Component.translatable("modmenu.descriptionTranslation.end-poem-extension");
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
@@ -64,52 +80,62 @@ final class DisplayInfoFactory {
         final Class<? extends IExtensionPoint> superclass = lookup.findClass("net.neoforged.neoforge.client.gui.modlist.DefaultModDisplayInfo")
                 .asSubclass(IExtensionPoint.class);
 
-        final MethodHandle MH_appendLines = lookup.findStatic(DisplayInfoFactory.class, "appendLines", MethodType.methodType(Component.class, Component.class));
+        final List<String> methodNames = List.of("credits", "displayName", "description");
+        final List<?> classData;
+        {
+            var cd = new Object[methodNames.size()];
+            for (int i = methodNames.size() - 1; i >= 0; i--) {
+                cd[i] = lookup.findStatic(DisplayInfoFactory.class, methodNames.get(i), MethodType.methodType(Component.class));
+            }
+            classData = List.of(cd);
+        }
 
         final ClassDesc thisDesc = ClassDesc.of(DisplayInfoFactory.class.getPackageName(), "DisplayInfoImpl");
         final ClassDesc superDesc = ClassDesc.ofDescriptor(superclass.descriptorString());
         final ClassDesc CD_ModContainer = ClassDesc.ofDescriptor(ModContainer.class.descriptorString());
         final ClassDesc CD_Component = ClassDesc.ofDescriptor(Component.class.descriptorString());
 
-        final byte[] bytecode = ClassFile.of().build(thisDesc, cb -> cb
-                .withFlags(AccessFlag.SUPER, AccessFlag.SYNTHETIC, AccessFlag.FINAL)
-                .withSuperclass(superDesc)
-                .withVersion(ClassFile.JAVA_25_VERSION, 0)
-                .withMethodBody(INIT_NAME, MethodTypeDesc.of(CD_void, CD_ModContainer), 0, cob -> cob
-                        .lineNumber(10)
-                        .aload(0).aload(1)
-                        .invokespecial(superDesc, INIT_NAME, MethodTypeDesc.of(CD_void, CD_ModContainer))
-                        .return_()
-                )
-                // Component description();
-                .withMethodBody("component", MethodTypeDesc.of(CD_Component), ClassFile.ACC_PUBLIC, cob -> cob
-                        .lineNumber(20)
-                        .aload(0)
-                        .invokespecial(superDesc, "component", MethodTypeDesc.of(CD_Component))
-                        .lineNumber(21)
-                        .ldc(DynamicConstantDesc.ofNamed(
-                                ofConstantBootstrap(CD_MethodHandles, "classData", CD_Object),
-                                DEFAULT_NAME, CD_MethodHandle
-                        ))
-                        .swap()
-                        .lineNumber(22)
-                        .invokevirtual(CD_MethodHandle, "invokeExact", MethodTypeDesc.of(CD_Component, CD_Component))
-                        .areturn()
-                )
-                .with(SourceFileAttribute.of("<generated>"))
-                .withMethodBody("toString", MethodTypeDesc.of(CD_String), ClassFile.ACC_PUBLIC, cob -> cob
-                        .lineNumber(110)
-                        .aload(0)
-                        .invokespecial(superDesc, "toString", MethodTypeDesc.of(CD_String))
-                        .lineNumber(111)
-                        .ldc("/custom")
-                        .invokevirtual(CD_String, "concat", MethodTypeDesc.of(CD_String, CD_String))
-                        .areturn()
-                )
+        final byte[] bytecode = ClassFile.of().build(thisDesc, cb -> {
+                    cb
+                            .withFlags(AccessFlag.SUPER, AccessFlag.SYNTHETIC, AccessFlag.FINAL)
+                            .withSuperclass(superDesc)
+                            .withVersion(ClassFile.JAVA_25_VERSION, 0)
+                            .withMethodBody(INIT_NAME, MethodTypeDesc.of(CD_void, CD_ModContainer), 0, cob -> cob
+                                    .lineNumber(100)
+                                    .aload(0).aload(1)
+                                    .invokespecial(superDesc, INIT_NAME, MethodTypeDesc.of(CD_void, CD_ModContainer))
+                                    .return_()
+                            );
+
+                    for (int i = methodNames.size() - 1; i >= 0; i--) {
+                        int baseLineNumber = i * 10, methodIndex = i;
+                        cb.withMethodBody(methodNames.get(i), MethodTypeDesc.of(CD_Component), ClassFile.ACC_PUBLIC, cob -> cob
+                                .lineNumber(baseLineNumber + 1)
+                                .ldc(DynamicConstantDesc.ofNamed(
+                                        ofConstantBootstrap(CD_MethodHandles, "classDataAt", CD_Object, CD_int),
+                                        DEFAULT_NAME, CD_MethodHandle, methodIndex
+                                ))
+                                .lineNumber(baseLineNumber + 2)
+                                .invokevirtual(CD_MethodHandle, "invokeExact", MethodTypeDesc.of(CD_Component))
+                                .areturn()
+                        );
+                    }
+
+                    cb.with(SourceFileAttribute.of("<generated>"));
+                    cb.withMethodBody("toString", MethodTypeDesc.of(CD_String), ClassFile.ACC_PUBLIC, cob -> cob
+                            .lineNumber(110)
+                            .aload(0)
+                            .invokespecial(superDesc, "toString", MethodTypeDesc.of(CD_String))
+                            .lineNumber(111)
+                            .ldc("/custom")
+                            .invokevirtual(CD_String, "concat", MethodTypeDesc.of(CD_String, CD_String))
+                            .areturn()
+                    );
+                }
         );
 
         final MethodHandles.Lookup subclassLookup = lookup.defineHiddenClassWithClassData(
-                bytecode, MH_appendLines, true, MethodHandles.Lookup.ClassOption.STRONG
+                bytecode, classData, true, MethodHandles.Lookup.ClassOption.STRONG
         );
         return (IExtensionPoint) subclassLookup.findConstructor(
                 subclassLookup.lookupClass(), MethodType.methodType(void.class, ModContainer.class)
