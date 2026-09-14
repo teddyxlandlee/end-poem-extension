@@ -146,4 +146,6 @@ final class DisplayInfoFactory {
     }
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DisplayInfoFactory.class);
+
+    private DisplayInfoFactory() {}
 }
