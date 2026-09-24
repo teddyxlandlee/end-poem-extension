@@ -1,4 +1,4 @@
-val neoVersion = "21.1.233"
+val neoVersion = "21.1.251"
 
 dependencies {
     neoForge("net.neoforged:neoforge:$neoVersion")

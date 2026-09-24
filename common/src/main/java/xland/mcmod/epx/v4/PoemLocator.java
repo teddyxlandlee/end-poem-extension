@@ -11,7 +11,6 @@ public class PoemLocator extends VanillaTextLocator {
 
     @Override
     protected NamespacedKey getAlternativePath(String langCode) {
-        //noinspection PatternValidation
-        return NamespacedKey.of("end_poem_extension", "texts/end_poem/" + langCode + ".txt");
+        return NamespacedKey.tryParse("end_poem_extension", "texts/end_poem/" + langCode + ".txt");
     }
 }

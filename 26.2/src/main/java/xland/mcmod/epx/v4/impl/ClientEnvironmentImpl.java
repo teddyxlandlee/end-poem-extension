@@ -147,7 +147,6 @@ public class ClientEnvironmentImpl implements ClientEnvironment {
     }
 
     public static NamespacedKey fromVanillaId(Identifier id) {
-        //noinspection PatternValidation
-        return NamespacedKey.of(id.getNamespace(), id.getPath());
+        return NamespacedKey.tryParse(id.getNamespace(), id.getPath());
     }
 }

@@ -143,6 +143,10 @@ uploadConfigs.forEach { (p, info) ->
         autoAddDependsOn = false
         dependencies {
             optional.project("remote-resource-pack")
+            if ("fabric" in info.loaders) {
+                // For extra copyright in ModMenu
+                optional.project("enchlevel-langpatch")
+            }
         }
 
         debugMode = providers.environmentVariable("MR_DEBUG").orElse("").map(String::isNotBlank)

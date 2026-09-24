@@ -9,9 +9,9 @@ tasks.withType<JavaCompile>().configureEach {
 }
 
 dependencies {
-    compileOnly("xland.mcmod:enchlevel-langpatch:3.1.0")
+    compileOnly("xland.mcmod:enchlevel-langpatch:3.9.1")
 
 //    implementation(fabricApiModule("fabric-resource-loader-v1", "0.150.2+26.2"))
-    implementation("net.fabricmc.fabric-api:fabric-resource-loader-v1:2.0.12+d3d844724f")
-    implementation("net.neoforged.fancymodloader:loader:11.0.13")
+    implementation("net.fabricmc.fabric-api:fabric-resource-loader-v1:2.0.13+9edec1269e")
+    implementation("net.neoforged.fancymodloader:loader:11.0.23")
 }

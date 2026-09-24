@@ -1,7 +1,7 @@
 plugins {
     java
     id("com.modrinth.minotaur") version "2.+" apply false
-    id("com.gradleup.shadow") version "9.4.2" apply false
+    id("com.gradleup.shadow") version "9.6.1" apply false
 }
 
 tasks.register("publishAllToModrinth") {

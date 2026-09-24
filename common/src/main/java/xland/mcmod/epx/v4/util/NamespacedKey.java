@@ -2,6 +2,7 @@ package xland.mcmod.epx.v4.util;
 
 import com.google.common.base.Preconditions;
 import org.intellij.lang.annotations.Language;
+import org.jetbrains.annotations.ApiStatus;
 
 import java.util.regex.Pattern;
 
@@ -40,6 +41,12 @@ public record NamespacedKey(
     @SuppressWarnings("PatternValidation")
     public static NamespacedKey tryParse(String key) throws IllegalArgumentException {
         return of(key);
+    }
+
+    @ApiStatus.AvailableSince("4.2.4")
+    @SuppressWarnings("PatternValidation")
+    public static NamespacedKey tryParse(String namespace, String path) throws IllegalArgumentException {
+        return of(namespace, path);
     }
 
     @SuppressWarnings("PatternValidation")
