@@ -117,7 +117,7 @@ public class ClientEnvironmentImpl implements ClientEnvironment {
             public boolean isShouldSkip() {
                 try {
                     return r.metadata().getSection(
-                            new MetadataSectionType<>(SKIP_KEY, Codec.PASSTHROUGH)
+                            new MetadataSectionType<>(SKIP_KEY, (Codec<?>) Codec.PASSTHROUGH)
                     ).isPresent();
                 } catch (IOException e) {
                     return ClientResource.super.isShouldSkip();
